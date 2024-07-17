@@ -1,0 +1,24 @@
+version: '3.1'
+services:
+  editor-service:
+    build: editor-service
+    image: editor-service-image
+    container_name: editor-service-container
+    ports:
+      - "8080:8080"
+    depends_on:
+      - updater-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db-container:5432/com.vnazarenko.updater
+      - SPRING_DATASOURCE_USERNAME=admin_updater
+      - SPRING_DATASOURCE_PASSWORD=CrpDcdW9E2N1KHbJBRrsM9PzWv80xKZ
+
+  updater-db:
+    image: postgres:16.3-alpine
+    container_name: com.vnazarenko.updater-db-container
+    ports:
+      - "6542:5432"
+    environment:
+      - POSTGRES_DB=com.vnazarenko.updater
+      - POSTGRES_USER=admin_updater
+      - POSTGRES_PASSWORD=CrpDcdW9E2N1KHbJBRrsM9PzWv80xKZ
