@@ -1,15 +1,15 @@
 package com.vnazarenko.updater.launch.model;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface LaunchMapper {
 
-    @Mapping(target = "id", ignore = true)
     Launch toEntity(LaunchDto launchDto);
 
     LaunchDto toDto(Launch launch);

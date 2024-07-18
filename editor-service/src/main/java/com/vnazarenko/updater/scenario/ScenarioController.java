@@ -30,7 +30,7 @@ public class ScenarioController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ScenarioDto createScenario(@Validated(Marker.OnCreate.class) @RequestBody ScenarioDto scenarioDto) {
-        log.info("POST /scenarios - {%s}".formatted(scenarioDto));
+        log.info("POST /scenarios - %s".formatted(scenarioDto));
         return scenarioService.createScenario(scenarioDto);
     }
 
@@ -67,7 +67,7 @@ public class ScenarioController {
     @PatchMapping("/{id}")
     public ScenarioDto updateScenario(@PathVariable("id") Long id,
                                       @Validated(Marker.OnUpdate.class) @RequestBody ScenarioDto scenarioDto) {
-        log.info("PATCH /scenarios/%d - {%s}".formatted(id, scenarioDto));
+        log.info("PATCH /scenarios/%d - %s".formatted(id, scenarioDto));
         return scenarioService.updateScenario(id, scenarioDto);
     }
 

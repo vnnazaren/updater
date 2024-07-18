@@ -19,7 +19,7 @@ public class DatabaseDto {
     /**
      * Системный идентификатор
      */
-    @NotNull(groups = {Marker.OnUpdate.class})
+//    @NotNull(groups = {Marker.OnUpdate.class})
     @Positive
     private Long id;
 

@@ -30,7 +30,7 @@ public class JobController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public JobDto createJob(@Validated(Marker.OnCreate.class) @RequestBody JobDto jobDto) {
-        log.info("POST /jobs - {%s}".formatted(jobDto));
+        log.info("POST /jobs - %s".formatted(jobDto));
         return jobService.createJob(jobDto);
     }
 

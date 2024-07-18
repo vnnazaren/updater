@@ -30,7 +30,7 @@ public class TaskListController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TaskListDto createTaskList(@Validated(Marker.OnCreate.class) @RequestBody TaskListDto taskListDto) {
-        log.info("POST /tasklists - {%s}".formatted(taskListDto));
+        log.info("POST /tasklists - %s".formatted(taskListDto));
         return taskListService.createTaskList(taskListDto);
     }
 
@@ -67,7 +67,7 @@ public class TaskListController {
     @PatchMapping("/{id}")
     public TaskListDto updateScenario(@PathVariable Long id,
                                       @Validated(Marker.OnUpdate.class) @RequestBody TaskListDto taskListDto) {
-        log.info("PATCH /tasklists/%d - {%s}".formatted(id, taskListDto));
+        log.info("PATCH /tasklists/%d - %s".formatted(id, taskListDto));
         return taskListService.updateTaskList(id, taskListDto);
     }
 

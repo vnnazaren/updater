@@ -30,7 +30,7 @@ public class SchedulerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SchedulerDto createSchedule(@Validated(Marker.OnCreate.class) @RequestBody SchedulerDto schedulerDto) {
-        log.info("POST /schedulers - {%s}".formatted(schedulerDto));
+        log.info("POST /schedulers - %s".formatted(schedulerDto));
         return schedulerService.createScheduler(schedulerDto);
     }
 
@@ -67,7 +67,7 @@ public class SchedulerController {
     @PatchMapping("/{id}")
     public SchedulerDto updateSchedule(@PathVariable Long id,
                                        @Validated(Marker.OnUpdate.class) @RequestBody SchedulerDto schedulerDto) {
-        log.info("PATCH /schedulers/%d - {%s}".formatted(id, schedulerDto));
+        log.info("PATCH /schedulers/%d - %s".formatted(id, schedulerDto));
         return schedulerService.updateScheduler(id, schedulerDto);
     }
 

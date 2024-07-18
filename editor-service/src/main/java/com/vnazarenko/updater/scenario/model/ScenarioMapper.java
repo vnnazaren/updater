@@ -1,17 +1,14 @@
 package com.vnazarenko.updater.scenario.model;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ScenarioMapper {
 
     @Mappings({
-            @Mapping(target = "id", ignore = true),
             @Mapping(target = "scheduler.id", source = "schedulerId"),
             @Mapping(target = "database.id", source = "databaseId"),
             @Mapping(target = "taskList.id", source = "taskListId")

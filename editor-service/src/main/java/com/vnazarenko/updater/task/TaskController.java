@@ -30,7 +30,7 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TaskDto createTask(@Validated(Marker.OnCreate.class) @RequestBody TaskDto taskDto) {
-        log.info("POST /tasks - {%s}".formatted(taskDto));
+        log.info("POST /tasks - %s".formatted(taskDto));
         return taskService.createTask(taskDto);
     }
 
@@ -67,7 +67,7 @@ public class TaskController {
     @PatchMapping("/{id}")
     public TaskDto updateTask(@PathVariable Long id,
                               @Validated(Marker.OnUpdate.class) @RequestBody TaskDto taskDto) {
-        log.info("PATCH /tasks/%d - {%s}".formatted(id, taskDto));
+        log.info("PATCH /tasks/%d - %s".formatted(id, taskDto));
         return taskService.updateTask(id, taskDto);
     }
 
