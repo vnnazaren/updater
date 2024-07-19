@@ -38,12 +38,6 @@ public class TaskList {
     private StatusType status;
 
     /**
-     * Теги баз данных совместимых со сценарием
-     */
-    @Column(name = "db_tags")
-    private String dbTags;
-
-    /**
      * Описание сценария
      */
     @Column(name = "description")

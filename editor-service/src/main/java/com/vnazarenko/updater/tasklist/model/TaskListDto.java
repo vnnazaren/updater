@@ -37,11 +37,6 @@ public class TaskListDto {
     private StatusType status;
 
     /**
-     * Теги баз данных совместимых со сценарием
-     */
-    private String dbTags;
-
-    /**
      * Описание сценария
      */
     @NotBlank(message = "Описание сценария должно быть указано.")
