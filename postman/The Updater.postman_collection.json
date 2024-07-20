@@ -1,0 +1,1207 @@
+{
+	"info": {
+		"_postman_id": "bae39320-2e2f-474e-b5b1-2fe2df8f372d",
+		"name": "The Updater",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23859137"
+	},
+	"item": [
+		{
+			"name": "Databases",
+			"item": [
+				{
+					"name": "Добавление базы данных",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const main = async () => {",
+									"    const api = new API(pm);",
+									"    const rnd = new RandomUtils();",
+									"",
+									"    let database;",
+									"    try {",
+									"        database = rnd.getDatabase();",
+									"    } catch(err) {",
+									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);",
+									"    }",
+									"",
+									"    pm.request.body.update({",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(database),",
+									"        options: { raw: { language: 'json' } }",
+									"    });",
+									"};",
+									"",
+									"const interval = setInterval(() => {}, 1000);",
+									"",
+									"setTimeout(async () => ",
+									"    {",
+									"        try {",
+									"            await main();",
+									"        } catch (e) {",
+									"            console.error(e);",
+									"        } finally {",
+									"            clearInterval(interval);",
+									"        }",
+									"    },  ",
+									"    100 ",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {",
+									"    pm.response.to.be.status(201);    ",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"const source = JSON.parse(pm.request.body.raw);",
+									"const target = pm.response.json();",
+									"",
+									"pm.test(\"База данных должна содержать поля: id, name, url, port, login, password, isProd\", function () {",
+									"    pm.expect(target).to.have.property('id');",
+									"    pm.expect(target).to.have.property('name');",
+									"    pm.expect(target).to.have.property('url');",
+									"    pm.expect(target).to.have.property('port');",
+									"    pm.expect(target).to.have.property('login');",
+									"    pm.expect(target).to.have.property('password');",
+									"    pm.expect(target).to.have.property('isProd');",
+									"});",
+									"",
+									"pm.test(\"Данные в ответе должны соответствовать данным в запросе\", function () {",
+									"    pm.expect(target.id).to.not.be.null;",
+									"    pm.expect(source.name).equal(target.name, 'Имя базы данных должно соответствовать отправленному в запросе');",
+									"    pm.expect(source.url).equal(target.url, 'Адрес базы данных должен соответствовать отправленному в запросе');",
+									"    pm.expect(source.port.toString()).equal(target.port.toString(), 'Порт базы данных должен соответствовать отправленному в запросе');",
+									"    pm.expect(source.login).equal(target.login, 'Логин пользователя базы данных должен соответствовать отправленному в запросе');",
+									"    pm.expect(source.password).equal(target.password, 'Пароль пользователя базы данных должен соответствовать отправленному в запросе');",
+									"    pm.expect(source.isProd.toString()).equal(target.isProd.toString(), 'Признак боевой базы данных должен соответствовать отправленному в запросе');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{request_body}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/dbs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dbs"
+							]
+						},
+						"description": "\nThe POST request to `/dbs` endpoint is used to create a new database. The request should include the necessary parameters in the request body.\n\n### Request Body\n- The request body should be in raw format.\n- The payload should include the details of the database to be created.\n\n### Response\nThe response to this request is in JSON format with the following schema:\n```json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"id\": {\n            \"type\": \"number\"\n        },\n        \"name\": {\n            \"type\": \"string\"\n        },\n        \"url\": {\n            \"type\": \"string\"\n        },\n        \"port\": {\n            \"type\": \"number\"\n        },\n        \"login\": {\n            \"type\": \"string\"\n        },\n        \"password\": {\n            \"type\": \"string\"\n        },\n        \"isProd\": {\n            \"type\": \"boolean\"\n        }\n    }\n}\n```\nThe response has a status code of 201 and a content type of `application/json`.\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Получение базы данных по ID",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const main = async () => {",
+									"    const api = new API(pm);",
+									"    const rnd = new RandomUtils();",
+									"",
+									"    try {",
+									"        const database = await api.addDatabase(rnd.getDatabase());",
+									"        pm.collectionVariables.set(\"response\", database)",
+									"        pm.collectionVariables.set(\"databaseId\", database.id)",
+									"    } catch(err) {",
+									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);",
+									"    }",
+									"};",
+									"",
+									"const interval = setInterval(() => {}, 1000);",
+									"",
+									"setTimeout(async () => ",
+									"    {",
+									"        try {",
+									"            await main();",
+									"        } catch (e) {",
+									"            console.error(e);",
+									"        } finally {",
+									"            clearInterval(interval);",
+									"        }",
+									"    },  ",
+									"    100 ",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {",
+									"    pm.response.to.be.ok;    ",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"const source = pm.collectionVariables.get('response');",
+									"const target = pm.response.json();",
+									"",
+									"pm.test(\"Пользователи должны содержать поля: id, name, email\", function () {",
+									"    pm.expect(target).to.have.property('id');",
+									"    pm.expect(target).to.have.property('name');",
+									"    pm.expect(target).to.have.property('url');",
+									"    pm.expect(target).to.have.property('port');",
+									"    pm.expect(target).to.have.property('login');",
+									"    pm.expect(target).to.have.property('password');",
+									"    pm.expect(target).to.have.property('isProd');",
+									"});",
+									"",
+									"pm.test(\"Данные в ответе должны соответствовать данным в запросе\", function () {",
+									"    pm.expect(target.id).to.not.be.null;",
+									"    pm.expect(source.name).equal(target.name, 'Имя базы данных должно соответствовать отправленному в запросе');",
+									"    pm.expect(source.url).equal(target.url, 'Адрес базы данных должен соответствовать отправленному в запросе');",
+									"    pm.expect(source.port.toString()).equal(target.port.toString(), 'Порт базы данных должен соответствовать отправленному в запросе');",
+									"    pm.expect(source.login).equal(target.login, 'Логин пользователя базы данных должен соответствовать отправленному в запросе');",
+									"    pm.expect(source.password).equal(target.password, 'Пароль пользователя базы данных должен соответствовать отправленному в запросе');",
+									"    pm.expect(source.isProd.toString()).equal(target.isProd.toString(), 'Признак боевой базы данных должен соответствовать отправленному в запросе');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/dbs/:databaseId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dbs",
+								":databaseId"
+							],
+							"variable": [
+								{
+									"key": "databaseId",
+									"value": "{{databaseId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Редактирование базы данных",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const main = async () => {\r",
+									"    const api = new API(pm);\r",
+									"    const rnd = new RandomUtils();\r",
+									"\r",
+									"    let database;\r",
+									"    try {\r",
+									"        database = await api.addDatabase(rnd.getDatabase());\r",
+									"        pm.collectionVariables.set(\"response\", database)\r",
+									"        pm.collectionVariables.set(\"databaseId\", database.id)\r",
+									"    } catch(err) {\r",
+									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
+									"    }\r",
+									"\r",
+									"    pm.request.body.update({\r",
+									"        mode: 'raw',\r",
+									"            raw: JSON.stringify({\r",
+									"                id: database.id,\r",
+									"                name : database.name + \" \" + database.id\r",
+									"            }),\r",
+									"        options: { raw: { language: 'json' } }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"const interval = setInterval(() => {}, 1000);\r",
+									"\r",
+									"setTimeout(async () => \r",
+									"    {\r",
+									"        try {\r",
+									"            await main();\r",
+									"        } catch (e) {\r",
+									"            console.error(e);\r",
+									"        } finally {\r",
+									"            clearInterval(interval);\r",
+									"        }\r",
+									"    },  \r",
+									"    100 \r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Fixed reference error for databaseId\r",
+									"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+									"    pm.response.to.be.ok;    \r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"const source = pm.collectionVariables.get('response');\r",
+									"const target = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Событие должно содержать поля: id, title, annotation, category, paid, eventDate, initiator, description, participantLimit, state, createdOn, publishedOn, location, requestModeration\", function () {\r",
+									"    pm.expect(target).to.have.property('id');\r",
+									"    pm.expect(target).to.have.property('name');\r",
+									"    pm.expect(target).to.have.property('url');\r",
+									"    pm.expect(target).to.have.property('port');\r",
+									"    pm.expect(target).to.have.property('login');\r",
+									"    pm.expect(target).to.have.property('password');\r",
+									"    pm.expect(target).to.have.property('isProd');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Данные в ответе должны соответствовать данным в запросе\", function () {\r",
+									"    pm.expect(source.id).equal(target.id, 'Аннотация события должна соответствовать искомому событию');\r",
+									"    pm.expect(source.name + \" \" + pm.collectionVariables.get('databaseId')).equal(target.name, 'Имя базы данных должен соответствовать имени искомой базы данных');\r",
+									"    pm.expect(source.url).equal(target.url, 'Адрес базы данных должен соответствовать адресу искомой базы данных');\r",
+									"    pm.expect(source.port).equal(target.port, 'Порт базы данных должен соответствовать порту искомой базы данных');\r",
+									"    pm.expect(source.login).equal(target.login, 'Логин пользователя базы данных должен соответствовать логину пользователя в искомой базы данных');\r",
+									"    pm.expect(source.password).equal(target.password, 'Пароль пользователя базы данных должен соответствовать паролю пользователя в искомой базы данных');\r",
+									"    pm.expect(source.isProd).equal(target.isProd, 'Признак продуктивной базы данных должен соответствовать признаку искомой базы данных');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{request_body}}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/dbs/:databaseId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dbs",
+								":databaseId"
+							],
+							"variable": [
+								{
+									"key": "databaseId",
+									"value": "{{databaseId}}"
+								}
+							]
+						},
+						"description": "Обратите внимание:\n - дата начала события должна быть не ранее чем за час от даты публикации.\n- событие должно быть в состоянии ожидания публикации"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TaskList",
+			"item": [
+				{
+					"name": "Добавление списка задач",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const main = async () => {",
+									"    const api = new API(pm);",
+									"    const rnd = new RandomUtils();",
+									"",
+									"    let taskList;",
+									"    try {",
+									"        taskList = rnd.getTaskList();",
+									"    } catch(err) {",
+									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);",
+									"    }",
+									"",
+									"    pm.request.body.update({",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(taskList),",
+									"        options: { raw: { language: 'json' } }",
+									"    });",
+									"};",
+									"",
+									"const interval = setInterval(() => {}, 1000);",
+									"",
+									"setTimeout(async () => ",
+									"    {",
+									"        try {",
+									"            await main();",
+									"        } catch (e) {",
+									"            console.error(e);",
+									"        } finally {",
+									"            clearInterval(interval);",
+									"        }",
+									"    },  ",
+									"    100 ",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {",
+									"    pm.response.to.be.status(201);    ",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"const source = JSON.parse(pm.request.body.raw);",
+									"const target = pm.response.json();",
+									"",
+									"pm.test(\"База данных должна содержать поля: id, name, url, port, login, password, isProd\", function () {",
+									"    pm.expect(target).to.have.property('id');",
+									"    pm.expect(target).to.have.property('name');",
+									"    pm.expect(target).to.have.property('status');",
+									"    pm.expect(target).to.have.property('description');",
+									"});",
+									"",
+									"pm.test(\"Данные в ответе должны соответствовать данным в запросе\", function () {",
+									"    pm.expect(target.id).to.not.be.null;",
+									"    pm.expect(source.name).equal(target.name, 'Имя списка задач должно соответствовать отправленному в запросе');",
+									"    pm.expect(source.status).equal(target.status, 'Статус списка задач данных должен соответствовать отправленному в запросе');",
+									"    pm.expect(source.description).equal(target.description, 'Логин списка задач должен соответствовать отправленному в запросе');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{request_body}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasklists",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasklists"
+							]
+						},
+						"description": "\nThe POST request to `/dbs` endpoint is used to create a new database. The request should include the necessary parameters in the request body.\n\n### Request Body\n- The request body should be in raw format.\n- The payload should include the details of the database to be created.\n\n### Response\nThe response to this request is in JSON format with the following schema:\n```json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"id\": {\n            \"type\": \"number\"\n        },\n        \"name\": {\n            \"type\": \"string\"\n        },\n        \"url\": {\n            \"type\": \"string\"\n        },\n        \"port\": {\n            \"type\": \"number\"\n        },\n        \"login\": {\n            \"type\": \"string\"\n        },\n        \"password\": {\n            \"type\": \"string\"\n        },\n        \"isProd\": {\n            \"type\": \"boolean\"\n        }\n    }\n}\n```\nThe response has a status code of 201 and a content type of `application/json`.\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Получение списка задач по ID",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const main = async () => {",
+									"    const api = new API(pm);",
+									"    const rnd = new RandomUtils();",
+									"",
+									"    try {",
+									"        const taskList = await api.addTaskList(rnd.getTaskList());",
+									"        pm.collectionVariables.set(\"response\", taskList)",
+									"        pm.collectionVariables.set(\"taskListId\", taskList.id)",
+									"    } catch(err) {",
+									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);",
+									"    }",
+									"};",
+									"",
+									"const interval = setInterval(() => {}, 1000);",
+									"",
+									"setTimeout(async () => ",
+									"    {",
+									"        try {",
+									"            await main();",
+									"        } catch (e) {",
+									"            console.error(e);",
+									"        } finally {",
+									"            clearInterval(interval);",
+									"        }",
+									"    },  ",
+									"    100 ",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {",
+									"    pm.response.to.be.ok;    ",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"const source = pm.collectionVariables.get('response');",
+									"const target = pm.response.json();",
+									"",
+									"pm.test(\"Список задач должен содержать поля: id, name, status, description\", function () {",
+									"    pm.expect(target).to.have.property('id');",
+									"    pm.expect(target).to.have.property('name');",
+									"    pm.expect(target).to.have.property('status');",
+									"    pm.expect(target).to.have.property('description');",
+									"});",
+									"",
+									"pm.test(\"Данные в ответе должны соответствовать данным в запросе\", function () {",
+									"    pm.expect(target.id).to.not.be.null;",
+									"    pm.expect(source.name).equal(target.name, 'Имя списка задач должно соответствовать отправленному в запросе');",
+									"    pm.expect(source.status).equal(target.status, 'Статус списка задач данных должен соответствовать отправленному в запросе');",
+									"    pm.expect(source.description).equal(target.description, 'Логин списка задач должен соответствовать отправленному в запросе');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/tasklists/:taskListId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasklists",
+								":taskListId"
+							],
+							"variable": [
+								{
+									"key": "taskListId",
+									"value": "{{taskListId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Редактирование списка задач",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const main = async () => {\r",
+									"    const api = new API(pm);\r",
+									"    const rnd = new RandomUtils();\r",
+									"\r",
+									"    let taskList;\r",
+									"    try {\r",
+									"        taskList = await api.addTaskList(rnd.getTaskList());\r",
+									"        pm.collectionVariables.set(\"response\", taskList)\r",
+									"        pm.collectionVariables.set(\"taskListId\", taskList.id)\r",
+									"    } catch(err) {\r",
+									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
+									"    }\r",
+									"\r",
+									"    pm.request.body.update({\r",
+									"        mode: 'raw',\r",
+									"            raw: JSON.stringify({\r",
+									"                id: taskList.id,\r",
+									"                name : taskList.name + \" \" + taskList.id\r",
+									"            }),\r",
+									"        options: { raw: { language: 'json' } }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"const interval = setInterval(() => {}, 1000);\r",
+									"\r",
+									"setTimeout(async () => \r",
+									"    {\r",
+									"        try {\r",
+									"            await main();\r",
+									"        } catch (e) {\r",
+									"            console.error(e);\r",
+									"        } finally {\r",
+									"            clearInterval(interval);\r",
+									"        }\r",
+									"    },  \r",
+									"    100 \r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+									"    pm.response.to.be.ok;    \r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"const source = pm.collectionVariables.get('response');\r",
+									"const target = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Список задач должен содержать поля: id, name, status, description\", function () {\r",
+									"    pm.expect(target).to.have.property('id');\r",
+									"    pm.expect(target).to.have.property('name');\r",
+									"    pm.expect(target).to.have.property('status');\r",
+									"    pm.expect(target).to.have.property('description');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Данные в ответе должны соответствовать данным в запросе\", function () {\r",
+									"    pm.expect(target.id).to.not.be.null;\r",
+									"    pm.expect(source.name + \" \" + pm.collectionVariables.get('taskListId')).equal(target.name, 'Имя списка задач должно соответствовать отправленному в запросе');\r",
+									"    pm.expect(source.status).equal(target.status, 'Статус списка задач данных должен соответствовать отправленному в запросе');\r",
+									"    pm.expect(source.description).equal(target.description, 'Логин списка задач должен соответствовать отправленному в запросе');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{request_body}}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasklists/:taskListId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasklists",
+								":taskListId"
+							],
+							"variable": [
+								{
+									"key": "taskListId",
+									"value": "{{taskListId}}"
+								}
+							]
+						},
+						"description": "Обратите внимание:\n - дата начала события должна быть не ранее чем за час от даты публикации.\n- событие должно быть в состоянии ожидания публикации"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "Добавление задачи",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const main = async () => {",
+									"    const api = new API(pm);",
+									"    const rnd = new RandomUtils();",
+									"",
+									"    let task;",
+									"    try {",
+									"        const taskList = await api.addTaskList(rnd.getTaskList());",
+									"        task = rnd.getTask(taskList.id);",
+									"    } catch(err) {",
+									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);",
+									"    }",
+									"",
+									"    pm.request.body.update({",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(task),",
+									"        options: { raw: { language: 'json' } }",
+									"    });",
+									"};",
+									"",
+									"const interval = setInterval(() => {}, 1000);",
+									"",
+									"setTimeout(async () => ",
+									"    {",
+									"        try {",
+									"            await main();",
+									"        } catch (e) {",
+									"            console.error(e);",
+									"        } finally {",
+									"            clearInterval(interval);",
+									"        }",
+									"    },  ",
+									"    100 ",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {",
+									"    pm.response.to.be.status(201);    ",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"const source = JSON.parse(pm.request.body.raw);",
+									"const target = pm.response.json();",
+									"",
+									"pm.test(\"База данных должна содержать поля: id, name, url, port, login, password, isProd\", function () {",
+									"    pm.expect(target).to.have.property('id');",
+									"    pm.expect(target).to.have.property('name');",
+									"    pm.expect(target).to.have.property('status');",
+									"    pm.expect(target).to.have.property('description');",
+									"});",
+									"",
+									"pm.test(\"Данные в ответе должны соответствовать данным в запросе\", function () {",
+									"    pm.expect(target.id).to.not.be.null;",
+									"    pm.expect(source.name).equal(target.name, 'Имя списка задач должно соответствовать отправленному в запросе');",
+									"    pm.expect(source.status).equal(target.status, 'Статус списка задач данных должен соответствовать отправленному в запросе');",
+									"    pm.expect(source.description).equal(target.description, 'Логин списка задач должен соответствовать отправленному в запросе');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{request_body}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks"
+							]
+						},
+						"description": "\nThe POST request to `/dbs` endpoint is used to create a new database. The request should include the necessary parameters in the request body.\n\n### Request Body\n- The request body should be in raw format.\n- The payload should include the details of the database to be created.\n\n### Response\nThe response to this request is in JSON format with the following schema:\n```json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"id\": {\n            \"type\": \"number\"\n        },\n        \"name\": {\n            \"type\": \"string\"\n        },\n        \"url\": {\n            \"type\": \"string\"\n        },\n        \"port\": {\n            \"type\": \"number\"\n        },\n        \"login\": {\n            \"type\": \"string\"\n        },\n        \"password\": {\n            \"type\": \"string\"\n        },\n        \"isProd\": {\n            \"type\": \"boolean\"\n        }\n    }\n}\n```\nThe response has a status code of 201 and a content type of `application/json`.\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Получение задачи по ID",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const main = async () => {",
+									"    const api = new API(pm);",
+									"    const rnd = new RandomUtils();",
+									"",
+									"    try {",
+									"        const taskList = await api.addTaskList(rnd.getTaskList());",
+									"        pm.collectionVariables.set(\"response\", taskList)",
+									"        pm.collectionVariables.set(\"taskListId\", taskList.id)",
+									"    } catch(err) {",
+									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);",
+									"    }",
+									"};",
+									"",
+									"const interval = setInterval(() => {}, 1000);",
+									"",
+									"setTimeout(async () => ",
+									"    {",
+									"        try {",
+									"            await main();",
+									"        } catch (e) {",
+									"            console.error(e);",
+									"        } finally {",
+									"            clearInterval(interval);",
+									"        }",
+									"    },  ",
+									"    100 ",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {",
+									"    pm.response.to.be.ok;    ",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"const source = pm.collectionVariables.get('response');",
+									"const target = pm.response.json();",
+									"",
+									"pm.test(\"Список задач должен содержать поля: id, name, status, description\", function () {",
+									"    pm.expect(target).to.have.property('id');",
+									"    pm.expect(target).to.have.property('name');",
+									"    pm.expect(target).to.have.property('status');",
+									"    pm.expect(target).to.have.property('description');",
+									"});",
+									"",
+									"pm.test(\"Данные в ответе должны соответствовать данным в запросе\", function () {",
+									"    pm.expect(target.id).to.not.be.null;",
+									"    pm.expect(source.name).equal(target.name, 'Имя списка задач должно соответствовать отправленному в запросе');",
+									"    pm.expect(source.status).equal(target.status, 'Статус списка задач данных должен соответствовать отправленному в запросе');",
+									"    pm.expect(source.description).equal(target.description, 'Логин списка задач должен соответствовать отправленному в запросе');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/tasks/:taskId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								":taskId"
+							],
+							"variable": [
+								{
+									"key": "taskId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Редактирование задачи",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const main = async () => {\r",
+									"    const api = new API(pm);\r",
+									"    const rnd = new RandomUtils();\r",
+									"\r",
+									"    let taskList;\r",
+									"    try {\r",
+									"        taskList = await api.addTaskList(rnd.getTaskList());\r",
+									"        pm.collectionVariables.set(\"response\", taskList)\r",
+									"        pm.collectionVariables.set(\"taskListId\", taskList.id)\r",
+									"    } catch(err) {\r",
+									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
+									"    }\r",
+									"\r",
+									"    pm.request.body.update({\r",
+									"        mode: 'raw',\r",
+									"            raw: JSON.stringify({\r",
+									"                id: taskList.id,\r",
+									"                name : taskList.name + \" \" + taskList.id\r",
+									"            }),\r",
+									"        options: { raw: { language: 'json' } }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"const interval = setInterval(() => {}, 1000);\r",
+									"\r",
+									"setTimeout(async () => \r",
+									"    {\r",
+									"        try {\r",
+									"            await main();\r",
+									"        } catch (e) {\r",
+									"            console.error(e);\r",
+									"        } finally {\r",
+									"            clearInterval(interval);\r",
+									"        }\r",
+									"    },  \r",
+									"    100 \r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+									"    pm.response.to.be.ok;    \r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"const source = pm.collectionVariables.get('response');\r",
+									"const target = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Список задач должен содержать поля: id, name, status, description\", function () {\r",
+									"    pm.expect(target).to.have.property('id');\r",
+									"    pm.expect(target).to.have.property('name');\r",
+									"    pm.expect(target).to.have.property('status');\r",
+									"    pm.expect(target).to.have.property('description');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Данные в ответе должны соответствовать данным в запросе\", function () {\r",
+									"    pm.expect(target.id).to.not.be.null;\r",
+									"    pm.expect(source.name + \" \" + pm.collectionVariables.get('taskListId')).equal(target.name, 'Имя списка задач должно соответствовать отправленному в запросе');\r",
+									"    pm.expect(source.status).equal(target.status, 'Статус списка задач данных должен соответствовать отправленному в запросе');\r",
+									"    pm.expect(source.description).equal(target.description, 'Логин списка задач должен соответствовать отправленному в запросе');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{request_body}}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasks/:taskId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								":taskId"
+							],
+							"variable": [
+								{
+									"key": "taskId",
+									"value": ""
+								}
+							]
+						},
+						"description": "Обратите внимание:\n - дата начала события должна быть не ранее чем за час от даты публикации.\n- событие должно быть в состоянии ожидания публикации"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"API = class {",
+					"    constructor(postman, verbose = false, baseUrl = \"http://localhost:8080\") {",
+					"        this.baseUrl = baseUrl;",
+					"        this.pm = postman;",
+					"        this._verbose = verbose;",
+					"    }",
+					"",
+					"    async addDatabase(database, verbose=null){",
+					"        return this.post(\"/dbs\", database, \"Ошибка при добавлении новой базы данных\", verbose);",
+					"    }",
+					"",
+					"    async addTaskList(taskList, verbose=null){",
+					"        return this.post(\"/tasklists\", taskList, \"Ошибка при добавлении нового списка задач\", verbose);",
+					"    }",
+					"",
+					"    async addTask(task, verbose=null){",
+					"        return this.post(\"/tasks\", task, \"Ошибка при добавлении нового списка задач\", verbose);",
+					"    }",
+					"",
+					"    async getDatabase(databaseId, verbose=null) {",
+					"        return this.get('/dbs/' + databaseId, null, \"Ошибка при поиске базы данных по id\", verbose);",
+					"    }",
+					"",
+					"    async getTaskList(taskListId, verbose=null) {",
+					"        return this.get('/tasklists/' + taskListId, null, \"Ошибка при поиске списка задач по id\", verbose);",
+					"    }",
+					"",
+					"    async getTask(taskId, verbose=null) {",
+					"        return this.get('/tasks/' + taskId, null, \"Ошибка при поиске списка задач по id\", verbose);",
+					"    }",
+					"",
+					"    async post(path, body, errorText = \"Ошибка при выполнении post-запроса: \", verbose=null) {",
+					"        return this.sendRequest(\"POST\", path, body, errorText, verbose);",
+					"    }",
+					"",
+					"    async patch(path, body = null, errorText = \"Ошибка при выполнении patch-запроса: \", verbose=null) {",
+					"        return this.sendRequest(\"PATCH\", path, body, errorText, verbose);",
+					"    }",
+					"",
+					"    async get(path, body = null, errorText = \"Ошибка при выполнении get-запроса: \", verbose=null) {",
+					"        return this.sendRequest(\"GET\", path, body, errorText, verbose);",
+					"    }",
+					"    async sendRequest(method, path, body=null, errorText = \"Ошибка при выполнении запроса: \", verbose=null) {",
+					"        return new Promise((resolve, reject) => {",
+					"            verbose = verbose == null ? this._verbose : verbose;",
+					"            const request = {",
+					"                url: this.baseUrl + path,",
+					"                method: method,",
+					"                body: body == null ? \"\" : JSON.stringify(body),",
+					"                header: { \"Content-Type\": \"application/json\" },",
+					"            };",
+					"            if(verbose) {",
+					"                console.log(\"Отправляю запрос: \", request);",
+					"            }",
+					"",
+					"            try {",
+					"                this.pm.sendRequest(request, (error, response) => {",
+					"                    if(error || (response.code >= 400 && response.code <= 599)) {",
+					"                        let err = error ? error : JSON.stringify(response.json());",
+					"                        console.error(\"При выполнении запроса к серверу возникла ошика.\\n\", err,",
+					"                             \"\\nДля отладки проблемы повторите такой же запрос к вашей программе \" + ",
+					"                             \"на локальном компьютере. Данные запроса:\\n\", JSON.stringify(request));",
+					"",
+					"                        reject(new Error(errorText + err));",
+					"                    }",
+					"                    if(verbose) {",
+					"                        console.log(\"Результат обработки запроса: код состояния - \", response.code, \", тело: \", response.json());",
+					"                    }",
+					"                    if (response.stream.length === 0){",
+					"                        reject(new Error('Отправлено пустое тело ответа'))",
+					"                    }else{",
+					"                        resolve(response.json());",
+					"                    }",
+					"                });",
+					"                ",
+					"            } catch(err) {",
+					"                if(verbose) {",
+					"                    console.error(errorText, err);",
+					"                }",
+					"                return Promise.reject(err);",
+					"            }",
+					"        });",
+					"    }",
+					"};",
+					"",
+					"RandomUtils = class {",
+					"    constructor() {}",
+					"",
+					"    getDatabase(){",
+					"        return{",
+					"            name: pm.variables.replaceIn('{{$randomFirstName}}'),",
+					"            url: pm.variables.replaceIn('{{$randomUrl}}'),",
+					"            port: pm.variables.replaceIn('{{$randomInt}}'),",
+					"            login: pm.variables.replaceIn('{{$randomWord}}'),",
+					"            password: pm.variables.replaceIn('{{$randomPassword}}'),",
+					"            isProd: pm.variables.replaceIn('{{$randomBoolean}}')",
+					"        };",
+					"    }",
+					"",
+					"    getTaskList(){",
+					"        return{",
+					"            name: pm.variables.replaceIn('{{$randomFirstName}}'),",
+					"            status: 'NEW',",
+					"            description: pm.variables.replaceIn('{{$randomLoremParagraph}}')",
+					"        };",
+					"    }",
+					"",
+					"    getTask(currentTaskListId){",
+					"        return{",
+					"            name: pm.variables.replaceIn('{{$randomFirstName}}'),",
+					"            taskListId:currentTaskListId,",
+					"            actionType:'PL_SQL',",
+					"            actionScript: pm.variables.replaceIn('{{$randomLoremParagraph}}'),",
+					"            expectedResult: pm.variables.replaceIn('{{$randomLoremSentence}}'),",
+					"            flags: pm.variables.replaceIn('{{$$randomLoremWord}}' + ',' + '{{$$randomLoremWord}}'),",
+					"            status: 'NEW',",
+					"            description: pm.variables.replaceIn('{{$randomLoremParagraph}}')",
+					"        };",
+					"    }",
+					"",
+					"    getFutureDateTime(hourShift = 5, minuteShift=0, yearShift=0) {",
+					"        let moment = require('moment');",
+					"",
+					"        let m = moment();",
+					"        m.add(hourShift, 'hour');",
+					"        m.add(minuteShift, 'minute');",
+					"        m.add(yearShift, 'year');",
+					"",
+					"        return m.format('YYYY-MM-DD HH:mm:ss');",
+					"    }",
+					"",
+					"    getWord(length = 1) {",
+					"        let result = '';",
+					"        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';",
+					"        const charactersLength = characters.length;",
+					"        let counter = 0;",
+					"        while (counter < length) {",
+					"            result += characters.charAt(Math.floor(Math.random() * charactersLength));",
+					"            counter += 1;",
+					"        }",
+					"        return result;",
+					"    }",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "databaseId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "response",
+			"value": ""
+		},
+		{
+			"key": "taskListId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "taskId",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
