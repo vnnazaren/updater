@@ -1,18 +1,18 @@
 package com.vnazarenko.updater.database;
 
-import com.vnazarenko.updater.database.model.DatabaseDto;
+import com.vnazarenko.updater.database.model.DatabasePayload;
 
 import java.util.List;
 
 public interface DatabaseService {
 
-    DatabaseDto createDatabase(DatabaseDto databaseDto);
+    DatabasePayload createDatabase(DatabasePayload databaseDto);
 
-    DatabaseDto readDatabase(Long id);
+    DatabasePayload readDatabase(Long id);
 
-    List<DatabaseDto> readDatabases();
+    List<DatabasePayload> readDatabases();
 
-    DatabaseDto updateDatabase(Long id, DatabaseDto databaseDto);
+    DatabasePayload updateDatabase(Long id, DatabasePayload databaseDto);
 
     void deleteDatabase(Long id);
 }

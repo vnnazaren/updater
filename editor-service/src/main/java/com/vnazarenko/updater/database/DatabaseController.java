@@ -1,6 +1,6 @@
 package com.vnazarenko.updater.database;
 
-import com.vnazarenko.updater.database.model.DatabaseDto;
+import com.vnazarenko.updater.database.model.DatabasePayload;
 import com.vnazarenko.updater.util.Marker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class DatabaseController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DatabaseDto createDatabase(@Validated(Marker.OnCreate.class) @RequestBody DatabaseDto databaseDto) {
+    public DatabasePayload createDatabase(@Validated(Marker.OnCreate.class) @RequestBody DatabasePayload databaseDto) {
         log.info("POST /dbs - %s".formatted(databaseDto));
         return databaseService.createDatabase(databaseDto);
     }
@@ -40,7 +40,7 @@ public class DatabaseController {
      * @return список с объектами DTO баз данных
      */
     @GetMapping
-    public List<DatabaseDto> readDatabases() {
+    public List<DatabasePayload> readDatabases() {
         log.info("GET /dbs");
         return databaseService.readDatabases();
     }
@@ -52,7 +52,7 @@ public class DatabaseController {
      * @return объект DTO базы данных
      */
     @GetMapping("/{id}")
-    public DatabaseDto readDatabase(@PathVariable("id") Long id) {
+    public DatabasePayload readDatabase(@PathVariable("id") Long id) {
         log.info("GET /dbs/%d".formatted(id));
         return databaseService.readDatabase(id);
     }
@@ -65,8 +65,8 @@ public class DatabaseController {
      * @return объект DTO базы данных с обновлёнными полями
      */
     @PatchMapping("/{id}")
-    public DatabaseDto updateDatabase(@PathVariable Long id,
-                                      @Validated(Marker.OnUpdate.class) @RequestBody DatabaseDto databaseDto) {
+    public DatabasePayload updateDatabase(@PathVariable Long id,
+                                          @Validated(Marker.OnUpdate.class) @RequestBody DatabasePayload databaseDto) {
         log.info("PATCH /dbs/%d - %s".formatted(id, databaseDto));
         return databaseService.updateDatabase(id, databaseDto);
     }
