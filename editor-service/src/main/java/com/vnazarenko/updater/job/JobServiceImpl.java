@@ -3,8 +3,8 @@ package com.vnazarenko.updater.job;
 import com.vnazarenko.updater.exception.BadRequestException;
 import com.vnazarenko.updater.exception.EntityNotFoundException;
 import com.vnazarenko.updater.job.model.Job;
-import com.vnazarenko.updater.job.model.JobDto;
 import com.vnazarenko.updater.job.model.JobMapper;
+import com.vnazarenko.updater.job.model.JobPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -22,10 +22,10 @@ public class JobServiceImpl implements JobService {
 
     @Override
     @Transactional
-    public JobDto createJob(JobDto jobDto) {
-        Job job = mapper.toEntity(jobDto);
+    public JobPayload createJob(JobPayload jobPayload) {
+        Job job = mapper.toEntity(jobPayload);
 
-        Set<Long> ancestors = jobDto.getAncestors();
+        Set<Long> ancestors = jobPayload.ancestors();
         if (ancestors != null) {
             job.setAncestors(this.readJobsByIdIn(ancestors));
         }
@@ -34,19 +34,19 @@ public class JobServiceImpl implements JobService {
             return mapper.toDto(dao.save(job));
         } catch (DataIntegrityViolationException e) {
             throw new BadRequestException(
-                    "Ошибка при создании задачи: %s".formatted(jobDto));
+                    "Ошибка при создании задачи: %s".formatted(jobPayload));
         }
     }
 
     @Override
-    public JobDto readJob(Long id) {
+    public JobPayload readJob(Long id) {
         return mapper.toDto(dao.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Job with id \"%d\" not found".formatted(id))));
     }
 
     @Override
-    public List<JobDto> readJobs() {
+    public List<JobPayload> readJobs() {
         return mapper.toDtoList(dao.findAll());
     }
 
@@ -57,9 +57,9 @@ public class JobServiceImpl implements JobService {
 
     @Override
     @Transactional
-    public JobDto updateJob(Long id, JobDto jobDto) {
+    public JobPayload updateJob(Long id, JobPayload jobPayload) {
         Job job = mapper.toEntity(this.readJob(id));
-        Job updatedJob = mapper.update(jobDto, job);
+        Job updatedJob = mapper.update(jobPayload, job);
 
         return mapper.toDto(dao.save(updatedJob));
     }

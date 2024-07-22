@@ -1,7 +1,7 @@
 package com.vnazarenko.updater.task;
 
 import com.vnazarenko.updater.task.model.Task;
-import com.vnazarenko.updater.task.model.TaskDto;
+import com.vnazarenko.updater.task.model.TaskPayload;
 
 import java.util.List;
 import java.util.Set;
@@ -9,15 +9,15 @@ import java.util.Set;
 // todo - особо сильно надо протестировать поведение/наличие/отсутствие предков у задачи
 public interface TaskService {
 
-    TaskDto createTask(TaskDto taskDto);
+    TaskPayload createTask(TaskPayload taskPayload);
 
-    TaskDto readTask(Long id);
+    TaskPayload readTask(Long id);
 
-    List<TaskDto> readTasks();
+    List<TaskPayload> readTasks();
 
     Set<Task> readTasksByIdIn(Set<Long> tasks);
 
-    TaskDto updateTask(Long id, TaskDto taskDto);
+    TaskPayload updateTask(Long id, TaskPayload taskPayload);
 
     void deleteTask(Long id);
 }

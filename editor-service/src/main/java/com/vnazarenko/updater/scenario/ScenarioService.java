@@ -1,18 +1,18 @@
 package com.vnazarenko.updater.scenario;
 
-import com.vnazarenko.updater.scenario.model.ScenarioDto;
+import com.vnazarenko.updater.scenario.model.ScenarioPayload;
 
 import java.util.List;
 
 public interface ScenarioService {
 
-    ScenarioDto createScenario(ScenarioDto scenarioDto);
+    ScenarioPayload createScenario(ScenarioPayload scenarioPayload);
 
-    ScenarioDto readScenario(Long id);
+    ScenarioPayload readScenario(Long id);
 
-    List<ScenarioDto> readScenarios();
+    List<ScenarioPayload> readScenarios();
 
-    ScenarioDto updateScenario(Long id, ScenarioDto scenarioDto);
+    ScenarioPayload updateScenario(Long id, ScenarioPayload scenarioPayload);
 
     void deleteScenario(Long id);
 }

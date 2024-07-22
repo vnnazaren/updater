@@ -10,11 +10,11 @@ import java.util.List;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface LaunchMapper {
 
-    Launch toEntity(LaunchDto launchDto);
+    Launch toEntity(LaunchPayload launchPayload);
 
-    LaunchDto toDto(Launch launch);
+    LaunchPayload toDto(Launch launch);
 
-    List<LaunchDto> toDtoList(List<Launch> launchList);
+    List<LaunchPayload> toDtoList(List<Launch> launchList);
 
-    Launch update(LaunchDto LaunchListDto, @MappingTarget Launch Launch);
+    Launch update(LaunchPayload LaunchListDto, @MappingTarget Launch Launch);
 }

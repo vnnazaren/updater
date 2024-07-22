@@ -13,16 +13,16 @@ public interface ScenarioMapper {
             @Mapping(target = "database.id", source = "databaseId"),
             @Mapping(target = "taskList.id", source = "taskListId")
     })
-    Scenario toEntity(ScenarioDto scenarioSettingsDto);
+    Scenario toEntity(ScenarioPayload scenarioPayload);
 
     @Mappings({
             @Mapping(target = "schedulerId", source = "scheduler.id"),
             @Mapping(target = "databaseId", source = "database.id"),
             @Mapping(target = "taskListId", source = "taskList.id")
     })
-    ScenarioDto toDto(Scenario scenarioSettings);
+    ScenarioPayload toDto(Scenario scenario);
 
-    List<ScenarioDto> toDtoList(List<Scenario> scenarioSettingsList);
+    List<ScenarioPayload> toDtoList(List<Scenario> scenarioList);
 
-    Scenario update(ScenarioDto scenarioDto, @MappingTarget Scenario scenario);
+    Scenario update(ScenarioPayload scenarioPayload, @MappingTarget Scenario scenario);
 }

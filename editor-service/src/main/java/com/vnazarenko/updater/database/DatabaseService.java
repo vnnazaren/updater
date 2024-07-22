@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface DatabaseService {
 
-    DatabasePayload createDatabase(DatabasePayload databaseDto);
+    DatabasePayload createDatabase(DatabasePayload databasePayload);
 
     DatabasePayload readDatabase(Long id);
 
     List<DatabasePayload> readDatabases();
 
-    DatabasePayload updateDatabase(Long id, DatabasePayload databaseDto);
+    DatabasePayload updateDatabase(Long id, DatabasePayload databasePayload);
 
     void deleteDatabase(Long id);
 }

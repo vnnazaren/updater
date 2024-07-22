@@ -10,11 +10,11 @@ import java.util.List;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DatabaseMapper {
 
-    Database toEntity(DatabasePayload databaseDto);
+    Database toEntity(DatabasePayload databasePayload);
 
     DatabasePayload toDto(Database database);
 
     List<DatabasePayload> toDtoList(List<Database> databaseList);
 
-    Database update(DatabasePayload databaseDto, @MappingTarget Database database);
+    Database update(DatabasePayload databasePayload, @MappingTarget Database database);
 }

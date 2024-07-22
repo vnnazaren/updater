@@ -1,18 +1,18 @@
 package com.vnazarenko.updater.scheduler;
 
-import com.vnazarenko.updater.scheduler.model.SchedulerDto;
+import com.vnazarenko.updater.scheduler.model.SchedulerPayload;
 
 import java.util.List;
 
 public interface SchedulerService {
 
-    SchedulerDto createScheduler(SchedulerDto schedulerDto);
+    SchedulerPayload createScheduler(SchedulerPayload schedulerPayload);
 
-    SchedulerDto readScheduler(Long id);
+    SchedulerPayload readScheduler(Long id);
 
-    List<SchedulerDto> readSchedulers();
+    List<SchedulerPayload> readSchedulers();
 
-    SchedulerDto updateScheduler(Long id, SchedulerDto schedulerDto);
+    SchedulerPayload updateScheduler(Long id, SchedulerPayload schedulerPayload);
 
     void deleteScheduler(Long id);
 }

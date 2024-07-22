@@ -24,14 +24,14 @@ public class DatabaseController {
     /**
      * Создание настроек БД
      *
-     * @param databaseDto Тело запроса с DTO базы данных
+     * @param databasePayload Тело запроса с DTO базы данных
      * @return объект DTO с новой созданной базой данных
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DatabasePayload createDatabase(@Validated(Marker.OnCreate.class) @RequestBody DatabasePayload databaseDto) {
-        log.info("POST /dbs - %s".formatted(databaseDto));
-        return databaseService.createDatabase(databaseDto);
+    public DatabasePayload createDatabase(@Validated(Marker.OnCreate.class) @RequestBody DatabasePayload databasePayload) {
+        log.info("POST /dbs - %s".formatted(databasePayload));
+        return databaseService.createDatabase(databasePayload);
     }
 
     /**
@@ -60,15 +60,15 @@ public class DatabaseController {
     /**
      * Изменение настроек БД
      *
-     * @param id          Идентификатор обновляемой базы данных
-     * @param databaseDto Тело запроса с DTO базы данных
+     * @param id              Идентификатор обновляемой базы данных
+     * @param databasePayload Тело запроса с DTO базы данных
      * @return объект DTO базы данных с обновлёнными полями
      */
     @PatchMapping("/{id}")
     public DatabasePayload updateDatabase(@PathVariable Long id,
-                                          @Validated(Marker.OnUpdate.class) @RequestBody DatabasePayload databaseDto) {
-        log.info("PATCH /dbs/%d - %s".formatted(id, databaseDto));
-        return databaseService.updateDatabase(id, databaseDto);
+                                          @Validated(Marker.OnUpdate.class) @RequestBody DatabasePayload databasePayload) {
+        log.info("PATCH /dbs/%d - %s".formatted(id, databasePayload));
+        return databaseService.updateDatabase(id, databasePayload);
     }
 
     /**

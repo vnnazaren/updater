@@ -2,8 +2,8 @@ package com.vnazarenko.updater.launch;
 
 import com.vnazarenko.updater.exception.EntityNotFoundException;
 import com.vnazarenko.updater.launch.model.Launch;
-import com.vnazarenko.updater.launch.model.LaunchDto;
 import com.vnazarenko.updater.launch.model.LaunchMapper;
+import com.vnazarenko.updater.launch.model.LaunchPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,27 +19,27 @@ public class LaunchServiceImpl implements LaunchService {
 
     @Override
     @Transactional
-    public LaunchDto createLaunch(LaunchDto launchDto) {
-        return mapper.toDto(dao.save(mapper.toEntity(launchDto)));
+    public LaunchPayload createLaunch(LaunchPayload launchPayload) {
+        return mapper.toDto(dao.save(mapper.toEntity(launchPayload)));
     }
 
     @Override
-    public LaunchDto readLaunch(Long id) {
+    public LaunchPayload readLaunch(Long id) {
         return mapper.toDto(dao.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Launch with id \"%d\" not found".formatted(id))));
     }
 
     @Override
-    public List<LaunchDto> readLaunches() {
+    public List<LaunchPayload> readLaunches() {
         return mapper.toDtoList(dao.findAll());
     }
 
     @Override
     @Transactional
-    public LaunchDto updateLaunch(Long id, LaunchDto launchDto) {
+    public LaunchPayload updateLaunch(Long id, LaunchPayload launchPayload) {
         Launch launch = mapper.toEntity(this.readLaunch(id));
-        Launch updatedLaunch = mapper.update(launchDto, launch);
+        Launch updatedLaunch = mapper.update(launchPayload, launch);
 
         return mapper.toDto(dao.save(updatedLaunch));
     }

@@ -2,8 +2,8 @@ package com.vnazarenko.updater.joblist;
 
 import com.vnazarenko.updater.exception.EntityNotFoundException;
 import com.vnazarenko.updater.joblist.model.JobList;
-import com.vnazarenko.updater.joblist.model.JobListDto;
 import com.vnazarenko.updater.joblist.model.JobListMapper;
+import com.vnazarenko.updater.joblist.model.JobListPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,27 +19,27 @@ public class JobListServiceImpl implements JobListService {
 
     @Override
     @Transactional
-    public JobListDto createJobList(JobListDto jobListDto) {
-        return mapper.toDto(dao.save(mapper.toEntity(jobListDto)));
+    public JobListPayload createJobList(JobListPayload jobListPayload) {
+        return mapper.toDto(dao.save(mapper.toEntity(jobListPayload)));
     }
 
     @Override
-    public JobListDto readJobList(Long id) {
+    public JobListPayload readJobList(Long id) {
         return mapper.toDto(dao.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("JobList with id \"%d\" not found".formatted(id))));
     }
 
     @Override
-    public List<JobListDto> readJobLists() {
+    public List<JobListPayload> readJobLists() {
         return mapper.toDtoList(dao.findAll());
     }
 
     @Override
     @Transactional
-    public JobListDto updateJobList(Long id, JobListDto jobListDto) {
+    public JobListPayload updateJobList(Long id, JobListPayload jobListPayload) {
         JobList jobList = mapper.toEntity(this.readJobList(id));
-        JobList updatedJobList = mapper.update(jobListDto, jobList);
+        JobList updatedJobList = mapper.update(jobListPayload, jobList);
 
         return mapper.toDto(dao.save(updatedJobList));
     }

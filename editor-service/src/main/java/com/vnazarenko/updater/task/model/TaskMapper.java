@@ -40,16 +40,16 @@ public interface TaskMapper {
             @Mapping(target = "taskList.id", source = "taskListId"),
             @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "idSetToTaskSet")
     })
-    Task toEntity(TaskDto taskDto);
+    Task toEntity(TaskPayload taskPayload);
 
     @Mappings({
             @Mapping(target = "taskListId", source = "taskList.id"),
             @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "taskSetToIdSet")
     })
-    TaskDto toDto(Task task);
+    TaskPayload toDto(Task task);
 
-    List<TaskDto> toDtoList(List<Task> taskList);
+    List<TaskPayload> toDtoList(List<Task> taskList);
 
     @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "idSetToTaskSet")
-    Task update(TaskDto taskDto, @MappingTarget Task task);
+    Task update(TaskPayload taskPayload, @MappingTarget Task task);
 }

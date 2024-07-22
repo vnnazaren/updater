@@ -1,6 +1,6 @@
 package com.vnazarenko.updater.scenario;
 
-import com.vnazarenko.updater.scenario.model.ScenarioDto;
+import com.vnazarenko.updater.scenario.model.ScenarioPayload;
 import com.vnazarenko.updater.util.Marker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,14 +24,14 @@ public class ScenarioController {
     /**
      * Создание сценария
      *
-     * @param scenarioDto - Тело запроса с DTO сценария
+     * @param scenarioPayload - Тело запроса с DTO сценария
      * @return объект DTO с новым созданным сценарием
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ScenarioDto createScenario(@Validated(Marker.OnCreate.class) @RequestBody ScenarioDto scenarioDto) {
-        log.info("POST /scenarios - %s".formatted(scenarioDto));
-        return scenarioService.createScenario(scenarioDto);
+    public ScenarioPayload createScenario(@Validated(Marker.OnCreate.class) @RequestBody ScenarioPayload scenarioPayload) {
+        log.info("POST /scenarios - %s".formatted(scenarioPayload));
+        return scenarioService.createScenario(scenarioPayload);
     }
 
     /**
@@ -40,7 +40,7 @@ public class ScenarioController {
      * @return список с объектами DTO всех сценариев
      */
     @GetMapping
-    public List<ScenarioDto> readScenarios() {
+    public List<ScenarioPayload> readScenarios() {
         log.info("GET /scenarios");
         return scenarioService.readScenarios();
     }
@@ -52,7 +52,7 @@ public class ScenarioController {
      * @return объект DTO сценария
      */
     @GetMapping("/{id}")
-    public ScenarioDto readScenario(@PathVariable("id") Long id) {
+    public ScenarioPayload readScenario(@PathVariable("id") Long id) {
         log.info("GET /scenarios/%d".formatted(id));
         return scenarioService.readScenario(id);
     }
@@ -60,15 +60,15 @@ public class ScenarioController {
     /**
      * Изменение сценария
      *
-     * @param id          - идентификатор сценария
-     * @param scenarioDto Тело запроса с DTO сценария
+     * @param id              - идентификатор сценария
+     * @param scenarioPayload Тело запроса с DTO сценария
      * @return - объект DTO сценария с обновлёнными полями
      */
     @PatchMapping("/{id}")
-    public ScenarioDto updateScenario(@PathVariable("id") Long id,
-                                      @Validated(Marker.OnUpdate.class) @RequestBody ScenarioDto scenarioDto) {
-        log.info("PATCH /scenarios/%d - %s".formatted(id, scenarioDto));
-        return scenarioService.updateScenario(id, scenarioDto);
+    public ScenarioPayload updateScenario(@PathVariable("id") Long id,
+                                          @Validated(Marker.OnUpdate.class) @RequestBody ScenarioPayload scenarioPayload) {
+        log.info("PATCH /scenarios/%d - %s".formatted(id, scenarioPayload));
+        return scenarioService.updateScenario(id, scenarioPayload);
     }
 
     /**

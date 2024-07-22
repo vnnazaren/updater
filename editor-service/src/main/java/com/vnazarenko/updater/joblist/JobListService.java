@@ -1,18 +1,18 @@
 package com.vnazarenko.updater.joblist;
 
-import com.vnazarenko.updater.joblist.model.JobListDto;
+import com.vnazarenko.updater.joblist.model.JobListPayload;
 
 import java.util.List;
 
 public interface JobListService {
 
-    JobListDto createJobList(JobListDto jobListDto);
+    JobListPayload createJobList(JobListPayload jobListPayload);
 
-    JobListDto readJobList(Long id);
+    JobListPayload readJobList(Long id);
 
-    List<JobListDto> readJobLists();
+    List<JobListPayload> readJobLists();
 
-    JobListDto updateJobList(Long id, JobListDto jobListDto);
+    JobListPayload updateJobList(Long id, JobListPayload jobListPayload);
 
     void deleteJobList(Long id);
 }

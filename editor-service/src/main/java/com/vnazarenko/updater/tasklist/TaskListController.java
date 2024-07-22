@@ -1,6 +1,6 @@
 package com.vnazarenko.updater.tasklist;
 
-import com.vnazarenko.updater.tasklist.model.TaskListDto;
+import com.vnazarenko.updater.tasklist.model.TaskListPayload;
 import com.vnazarenko.updater.util.Marker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class TaskListController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskListDto createTaskList(@Validated(Marker.OnCreate.class) @RequestBody TaskListDto taskListDto) {
+    public TaskListPayload createTaskList(@Validated(Marker.OnCreate.class) @RequestBody TaskListPayload taskListDto) {
         log.info("POST /tasklists - %s".formatted(taskListDto));
         return taskListService.createTaskList(taskListDto);
     }
@@ -40,7 +40,7 @@ public class TaskListController {
      * @return список с объектами DTO списков задачи
      */
     @GetMapping
-    public List<TaskListDto> readTaskLists() {
+    public List<TaskListPayload> readTaskLists() {
         log.info("GET /tasklists");
         return taskListService.readTaskLists();
     }
@@ -52,7 +52,7 @@ public class TaskListController {
      * @return объект DTO списка задач
      */
     @GetMapping("/{id}")
-    public TaskListDto readTaskList(@PathVariable("id") Long id) {
+    public TaskListPayload readTaskList(@PathVariable("id") Long id) {
         log.info("GET /tasklists/%d".formatted(id));
         return taskListService.readTaskList(id);
     }
@@ -65,8 +65,8 @@ public class TaskListController {
      * @return объект DTO списка задач с обновлёнными полями
      */
     @PatchMapping("/{id}")
-    public TaskListDto updateScenario(@PathVariable Long id,
-                                      @Validated(Marker.OnUpdate.class) @RequestBody TaskListDto taskListDto) {
+    public TaskListPayload updateScenario(@PathVariable Long id,
+                                          @Validated(Marker.OnUpdate.class) @RequestBody TaskListPayload taskListDto) {
         log.info("PATCH /tasklists/%d - %s".formatted(id, taskListDto));
         return taskListService.updateTaskList(id, taskListDto);
     }

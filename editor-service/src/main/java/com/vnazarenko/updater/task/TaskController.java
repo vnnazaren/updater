@@ -1,6 +1,6 @@
 package com.vnazarenko.updater.task;
 
-import com.vnazarenko.updater.task.model.TaskDto;
+import com.vnazarenko.updater.task.model.TaskPayload;
 import com.vnazarenko.updater.util.Marker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,14 +24,14 @@ public class TaskController {
     /**
      * Создание задачи
      *
-     * @param taskDto Тело запроса с DTO задачи
+     * @param taskPayload Тело запроса с DTO задачи
      * @return объект DTO с новой созданной задачей
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskDto createTask(@Validated(Marker.OnCreate.class) @RequestBody TaskDto taskDto) {
-        log.info("POST /tasks - %s".formatted(taskDto));
-        return taskService.createTask(taskDto);
+    public TaskPayload createTask(@Validated(Marker.OnCreate.class) @RequestBody TaskPayload taskPayload) {
+        log.info("POST /tasks - %s".formatted(taskPayload));
+        return taskService.createTask(taskPayload);
     }
 
     /**
@@ -40,7 +40,7 @@ public class TaskController {
      * @return список с объектами DTO задач
      */
     @GetMapping
-    public List<TaskDto> readTasks() {
+    public List<TaskPayload> readTasks() {
         log.info("GET /tasks");
         return taskService.readTasks();
     }
@@ -52,7 +52,7 @@ public class TaskController {
      * @return объект DTO задачи
      */
     @GetMapping("/{id}")
-    public TaskDto readTask(@PathVariable("id") Long id) {
+    public TaskPayload readTask(@PathVariable("id") Long id) {
         log.info("GET /tasks/%d".formatted(id));
         return taskService.readTask(id);
     }
@@ -60,15 +60,15 @@ public class TaskController {
     /**
      * Изменение задачи
      *
-     * @param id      Идентификатор обновляемой задачи
-     * @param taskDto Тело запроса с DTO задачи
+     * @param id          Идентификатор обновляемой задачи
+     * @param taskPayload Тело запроса с DTO задачи
      * @return объект DTO задачи с обновлёнными полями
      */
     @PatchMapping("/{id}")
-    public TaskDto updateTask(@PathVariable Long id,
-                              @Validated(Marker.OnUpdate.class) @RequestBody TaskDto taskDto) {
-        log.info("PATCH /tasks/%d - %s".formatted(id, taskDto));
-        return taskService.updateTask(id, taskDto);
+    public TaskPayload updateTask(@PathVariable Long id,
+                                  @Validated(Marker.OnUpdate.class) @RequestBody TaskPayload taskPayload) {
+        log.info("PATCH /tasks/%d - %s".formatted(id, taskPayload));
+        return taskService.updateTask(id, taskPayload);
     }
 
     /**

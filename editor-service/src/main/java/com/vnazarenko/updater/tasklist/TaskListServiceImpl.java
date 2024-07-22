@@ -2,8 +2,8 @@ package com.vnazarenko.updater.tasklist;
 
 import com.vnazarenko.updater.exception.EntityNotFoundException;
 import com.vnazarenko.updater.tasklist.model.TaskList;
-import com.vnazarenko.updater.tasklist.model.TaskListDto;
 import com.vnazarenko.updater.tasklist.model.TaskListMapper;
+import com.vnazarenko.updater.tasklist.model.TaskListPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,25 +19,25 @@ public class TaskListServiceImpl implements TaskListService {
 
     @Override
     @Transactional
-    public TaskListDto createTaskList(TaskListDto taskListDto) {
+    public TaskListPayload createTaskList(TaskListPayload taskListDto) {
         return mapper.toDto(dao.save(mapper.toEntity(taskListDto)));
     }
 
     @Override
-    public TaskListDto readTaskList(Long id) {
+    public TaskListPayload readTaskList(Long id) {
         return mapper.toDto(dao.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("TaskList with id \"%d\" not found.".formatted(id))));
     }
 
     @Override
-    public List<TaskListDto> readTaskLists() {
+    public List<TaskListPayload> readTaskLists() {
         return mapper.toDtoList(dao.findAll());
     }
 
     @Override
     @Transactional
-    public TaskListDto updateTaskList(Long id, TaskListDto taskListDto) {
+    public TaskListPayload updateTaskList(Long id, TaskListPayload taskListDto) {
         TaskList taskList = mapper.toEntity(this.readTaskList(id));
         TaskList updatedTaskList = mapper.update(taskListDto, taskList);
 

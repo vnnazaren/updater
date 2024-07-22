@@ -1,6 +1,6 @@
 package com.vnazarenko.updater.launch;
 
-import com.vnazarenko.updater.launch.model.LaunchDto;
+import com.vnazarenko.updater.launch.model.LaunchPayload;
 import com.vnazarenko.updater.util.Marker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,14 +24,14 @@ public class LaunchController {
     /**
      * Создание запуска
      *
-     * @param launchDto Тело запроса с DTO запуска
+     * @param launchPayload Тело запроса с DTO запуска
      * @return объект DTO с новым созданным запуском
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public LaunchDto createLaunchInstance(@Validated(Marker.OnCreate.class) @RequestBody LaunchDto launchDto) {
-        log.info("POST /launches - %s".formatted(launchDto));
-        return launchService.createLaunch(launchDto);
+    public LaunchPayload createLaunchInstance(@Validated(Marker.OnCreate.class) @RequestBody LaunchPayload launchPayload) {
+        log.info("POST /launches - %s".formatted(launchPayload));
+        return launchService.createLaunch(launchPayload);
     }
 
     /**
@@ -40,7 +40,7 @@ public class LaunchController {
      * @return список с объектами DTO запусков
      */
     @GetMapping
-    public List<LaunchDto> readLaunches() {
+    public List<LaunchPayload> readLaunches() {
         log.info("GET /launches");
         return launchService.readLaunches();
     }
@@ -52,7 +52,7 @@ public class LaunchController {
      * @return объект DTO запуска
      */
     @GetMapping("/{id}")
-    public LaunchDto readLaunch(@PathVariable("id") Long id) {
+    public LaunchPayload readLaunch(@PathVariable("id") Long id) {
         log.info("GET /launches/%d".formatted(id));
         return launchService.readLaunch(id);
     }
@@ -60,15 +60,15 @@ public class LaunchController {
     /**
      * Изменение запуска
      *
-     * @param id        идентификатор запуска
-     * @param launchDto Тело запроса с DTO запуска
+     * @param id            идентификатор запуска
+     * @param launchPayload Тело запроса с DTO запуска
      * @return объект DTO запуска с обновлёнными полями
      */
     @PatchMapping("/{id}")
-    public LaunchDto updateLaunch(@PathVariable Long id,
-                                  @Validated(Marker.OnUpdate.class) @RequestBody LaunchDto launchDto) {
-        log.info("PATCH /launches/%d - %s".formatted(id, launchDto));
-        return launchService.updateLaunch(id, launchDto);
+    public LaunchPayload updateLaunch(@PathVariable Long id,
+                                      @Validated(Marker.OnUpdate.class) @RequestBody LaunchPayload launchPayload) {
+        log.info("PATCH /launches/%d - %s".formatted(id, launchPayload));
+        return launchService.updateLaunch(id, launchPayload);
     }
 
     /**

@@ -1,18 +1,18 @@
 package com.vnazarenko.updater.tasklist;
 
-import com.vnazarenko.updater.tasklist.model.TaskListDto;
+import com.vnazarenko.updater.tasklist.model.TaskListPayload;
 
 import java.util.List;
 
 public interface TaskListService {
 
-    TaskListDto createTaskList(TaskListDto taskListDto);
+    TaskListPayload createTaskList(TaskListPayload taskListDto);
 
-    TaskListDto readTaskList(Long id);
+    TaskListPayload readTaskList(Long id);
 
-    List<TaskListDto> readTaskLists();
+    List<TaskListPayload> readTaskLists();
 
-    TaskListDto updateTaskList(Long id, TaskListDto taskListDto);
+    TaskListPayload updateTaskList(Long id, TaskListPayload taskListDto);
 
     void deleteTaskList(Long id);
 }

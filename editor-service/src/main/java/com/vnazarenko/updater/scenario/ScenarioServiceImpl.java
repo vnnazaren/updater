@@ -2,8 +2,8 @@ package com.vnazarenko.updater.scenario;
 
 import com.vnazarenko.updater.exception.EntityNotFoundException;
 import com.vnazarenko.updater.scenario.model.Scenario;
-import com.vnazarenko.updater.scenario.model.ScenarioDto;
 import com.vnazarenko.updater.scenario.model.ScenarioMapper;
+import com.vnazarenko.updater.scenario.model.ScenarioPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,27 +19,27 @@ public class ScenarioServiceImpl implements ScenarioService {
 
     @Override
     @Transactional
-    public ScenarioDto createScenario(ScenarioDto scenarioDto) {
-        return mapper.toDto(dao.save(mapper.toEntity(scenarioDto)));
+    public ScenarioPayload createScenario(ScenarioPayload scenarioPayload) {
+        return mapper.toDto(dao.save(mapper.toEntity(scenarioPayload)));
     }
 
     @Override
-    public ScenarioDto readScenario(Long id) {
+    public ScenarioPayload readScenario(Long id) {
         return mapper.toDto(dao.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("TaskList with id \"%d\" not found".formatted(id))));
     }
 
     @Override
-    public List<ScenarioDto> readScenarios() {
+    public List<ScenarioPayload> readScenarios() {
         return mapper.toDtoList(dao.findAll());
     }
 
     @Override
     @Transactional
-    public ScenarioDto updateScenario(Long id, ScenarioDto scenarioDto) {
+    public ScenarioPayload updateScenario(Long id, ScenarioPayload scenarioPayload) {
         Scenario scenario = mapper.toEntity(this.readScenario(id));
-        Scenario updatedScenario = mapper.update(scenarioDto, scenario);
+        Scenario updatedScenario = mapper.update(scenarioPayload, scenario);
 
         return mapper.toDto(dao.save(dao.save(updatedScenario)));
     }

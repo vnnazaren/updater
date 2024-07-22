@@ -10,11 +10,11 @@ import java.util.List;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface JobListMapper {
 
-    JobList toEntity(JobListDto jobListDto);
+    JobList toEntity(JobListPayload jobListDto);
 
-    JobListDto toDto(JobList jobList);
+    JobListPayload toDto(JobList jobList);
 
-    List<JobListDto> toDtoList(List<JobList> jobList);
+    List<JobListPayload> toDtoList(List<JobList> jobList);
 
-    JobList update(JobListDto jobListDto, @MappingTarget JobList jobList);
+    JobList update(JobListPayload jobListDto, @MappingTarget JobList jobList);
 }

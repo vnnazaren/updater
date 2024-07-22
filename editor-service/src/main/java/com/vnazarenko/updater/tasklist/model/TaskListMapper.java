@@ -10,11 +10,11 @@ import java.util.List;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface TaskListMapper {
 
-    TaskList toEntity(TaskListDto scenarioDto);
+    TaskList toEntity(TaskListPayload taskListDto);
 
-    TaskListDto toDto(TaskList scenario);
+    TaskListPayload toDto(TaskList scenario);
 
-    List<TaskListDto> toDtoList(List<TaskList> scenarioList);
+    List<TaskListPayload> toDtoList(List<TaskList> taskLists);
 
-    TaskList update(TaskListDto taskListDto, @MappingTarget TaskList taskList);
+    TaskList update(TaskListPayload taskListDto, @MappingTarget TaskList taskList);
 }

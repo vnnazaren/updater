@@ -1,8 +1,8 @@
 package com.vnazarenko.updater.database;
 
 import com.vnazarenko.updater.database.model.Database;
-import com.vnazarenko.updater.database.model.DatabasePayload;
 import com.vnazarenko.updater.database.model.DatabaseMapper;
+import com.vnazarenko.updater.database.model.DatabasePayload;
 import com.vnazarenko.updater.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,8 +19,8 @@ public class DatabaseServiceImpl implements DatabaseService {
 
     @Override
     @Transactional
-    public DatabasePayload createDatabase(DatabasePayload databaseDto) {
-        return mapper.toDto(dao.save(mapper.toEntity(databaseDto)));
+    public DatabasePayload createDatabase(DatabasePayload databasePayload) {
+        return mapper.toDto(dao.save(mapper.toEntity(databasePayload)));
     }
 
     @Override
@@ -37,9 +37,9 @@ public class DatabaseServiceImpl implements DatabaseService {
 
     @Override
     @Transactional
-    public DatabasePayload updateDatabase(Long id, DatabasePayload databaseDto) {
+    public DatabasePayload updateDatabase(Long id, DatabasePayload databasePayload) {
         Database database = mapper.toEntity(this.readDatabase(id));
-        Database updatedDatabase = mapper.update(databaseDto, database);
+        Database updatedDatabase = mapper.update(databasePayload, database);
 
         return mapper.toDto(dao.save(updatedDatabase));
     }

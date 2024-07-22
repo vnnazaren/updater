@@ -1,6 +1,6 @@
 package com.vnazarenko.updater.joblist;
 
-import com.vnazarenko.updater.joblist.model.JobListDto;
+import com.vnazarenko.updater.joblist.model.JobListPayload;
 import com.vnazarenko.updater.util.Marker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,14 +24,14 @@ public class JobListController {
     /**
      * Создание списка задач на выполнение
      *
-     * @param jobListDto Тело запроса с DTO списка задач на выполнение
+     * @param jobListPayload Тело запроса с DTO списка задач на выполнение
      * @return объект DTO с новым созданным списком задач на выполнение
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public JobListDto createJobList(@Validated(Marker.OnCreate.class) @RequestBody JobListDto jobListDto) {
-        log.info("POST /joblists - %s".formatted(jobListDto));
-        return jobListService.createJobList(jobListDto);
+    public JobListPayload createJobList(@Validated(Marker.OnCreate.class) @RequestBody JobListPayload jobListPayload) {
+        log.info("POST /joblists - %s".formatted(jobListPayload));
+        return jobListService.createJobList(jobListPayload);
     }
 
     /**
@@ -40,7 +40,7 @@ public class JobListController {
      * @return список с объектами DTO списков на выполнение
      */
     @GetMapping
-    public List<JobListDto> readJobLists() {
+    public List<JobListPayload> readJobLists() {
         log.info("GET /joblists");
         return jobListService.readJobLists();
     }
@@ -52,7 +52,7 @@ public class JobListController {
      * @return объект DTO списка задач на выполнение
      */
     @GetMapping("/{id}")
-    public JobListDto readJobList(@PathVariable("id") Long id) {
+    public JobListPayload readJobList(@PathVariable("id") Long id) {
         log.info("GET /joblists/%d".formatted(id));
         return jobListService.readJobList(id);
     }
@@ -65,8 +65,8 @@ public class JobListController {
      * @return объект DTO списка задач на выполнение с обновлёнными полями
      */
     @PatchMapping("/{id}")
-    public JobListDto updateJobList(@PathVariable Long id,
-                                    @Validated(Marker.OnUpdate.class) @RequestBody JobListDto jobListDto) {
+    public JobListPayload updateJobList(@PathVariable Long id,
+                                        @Validated(Marker.OnUpdate.class) @RequestBody JobListPayload jobListDto) {
         log.info("PATCH /joblists/%d - %s".formatted(id, jobListDto));
         return jobListService.updateJobList(id, jobListDto);
     }

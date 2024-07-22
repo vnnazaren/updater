@@ -1,6 +1,6 @@
 package com.vnazarenko.updater.scheduler;
 
-import com.vnazarenko.updater.scheduler.model.SchedulerDto;
+import com.vnazarenko.updater.scheduler.model.SchedulerPayload;
 import com.vnazarenko.updater.util.Marker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,14 +24,14 @@ public class SchedulerController {
     /**
      * Создание будильника
      *
-     * @param schedulerDto Тело запроса с DTO будильника
+     * @param schedulerPayload Тело запроса с DTO будильника
      * @return объект DTO с новым созданным будильником
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SchedulerDto createSchedule(@Validated(Marker.OnCreate.class) @RequestBody SchedulerDto schedulerDto) {
-        log.info("POST /schedulers - %s".formatted(schedulerDto));
-        return schedulerService.createScheduler(schedulerDto);
+    public SchedulerPayload createSchedule(@Validated(Marker.OnCreate.class) @RequestBody SchedulerPayload schedulerPayload) {
+        log.info("POST /schedulers - %s".formatted(schedulerPayload));
+        return schedulerService.createScheduler(schedulerPayload);
     }
 
     /**
@@ -40,7 +40,7 @@ public class SchedulerController {
      * @return список с объектами DTO будильников
      */
     @GetMapping
-    public List<SchedulerDto> readSchedules() {
+    public List<SchedulerPayload> readSchedules() {
         log.info("GET /schedulers");
         return schedulerService.readSchedulers();
     }
@@ -52,7 +52,7 @@ public class SchedulerController {
      * @return объект DTO будильника
      */
     @GetMapping("/{id}")
-    public SchedulerDto readSchedule(@PathVariable("id") Long id) {
+    public SchedulerPayload readSchedule(@PathVariable("id") Long id) {
         log.info("GET /schedulers/%d".formatted(id));
         return schedulerService.readScheduler(id);
     }
@@ -60,15 +60,15 @@ public class SchedulerController {
     /**
      * Изменение будильника
      *
-     * @param id           Идентификатор обновляемого будильника
-     * @param schedulerDto Тело запроса с DTO будильника
+     * @param id               Идентификатор обновляемого будильника
+     * @param schedulerPayload Тело запроса с DTO будильника
      * @return объект DTO будильника с обновлёнными полями
      */
     @PatchMapping("/{id}")
-    public SchedulerDto updateSchedule(@PathVariable Long id,
-                                       @Validated(Marker.OnUpdate.class) @RequestBody SchedulerDto schedulerDto) {
-        log.info("PATCH /schedulers/%d - %s".formatted(id, schedulerDto));
-        return schedulerService.updateScheduler(id, schedulerDto);
+    public SchedulerPayload updateSchedule(@PathVariable Long id,
+                                           @Validated(Marker.OnUpdate.class) @RequestBody SchedulerPayload schedulerPayload) {
+        log.info("PATCH /schedulers/%d - %s".formatted(id, schedulerPayload));
+        return schedulerService.updateScheduler(id, schedulerPayload);
     }
 
     /**

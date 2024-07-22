@@ -2,8 +2,8 @@ package com.vnazarenko.updater.scheduler;
 
 import com.vnazarenko.updater.exception.EntityNotFoundException;
 import com.vnazarenko.updater.scheduler.model.Scheduler;
-import com.vnazarenko.updater.scheduler.model.SchedulerDto;
 import com.vnazarenko.updater.scheduler.model.SchedulerMapper;
+import com.vnazarenko.updater.scheduler.model.SchedulerPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,27 +19,27 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     @Override
     @Transactional
-    public SchedulerDto createScheduler(SchedulerDto schedulerDto) {
-        return mapper.toDto(dao.save(mapper.toEntity(schedulerDto)));
+    public SchedulerPayload createScheduler(SchedulerPayload schedulerPayload) {
+        return mapper.toDto(dao.save(mapper.toEntity(schedulerPayload)));
     }
 
     @Override
-    public SchedulerDto readScheduler(Long id) {
+    public SchedulerPayload readScheduler(Long id) {
         return mapper.toDto(dao.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Scheduler with id \"%d\" not found".formatted(id))));
     }
 
     @Override
-    public List<SchedulerDto> readSchedulers() {
+    public List<SchedulerPayload> readSchedulers() {
         return mapper.toDtoList(dao.findAll());
     }
 
     @Override
     @Transactional
-    public SchedulerDto updateScheduler(Long id, SchedulerDto schedulerDto) {
+    public SchedulerPayload updateScheduler(Long id, SchedulerPayload schedulerPayload) {
         Scheduler scheduler = mapper.toEntity(this.readScheduler(id));
-        Scheduler updatedScheduler = mapper.update(schedulerDto, scheduler);
+        Scheduler updatedScheduler = mapper.update(schedulerPayload, scheduler);
 
         return mapper.toDto(dao.save(updatedScheduler));
     }

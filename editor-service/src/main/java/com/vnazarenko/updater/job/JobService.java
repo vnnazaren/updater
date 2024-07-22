@@ -1,22 +1,22 @@
 package com.vnazarenko.updater.job;
 
 import com.vnazarenko.updater.job.model.Job;
-import com.vnazarenko.updater.job.model.JobDto;
+import com.vnazarenko.updater.job.model.JobPayload;
 
 import java.util.List;
 import java.util.Set;
 
 public interface JobService {
 
-    JobDto createJob(JobDto taskInstanceDto);
+    JobPayload createJob(JobPayload taskInstanceDto);
 
-    JobDto readJob(Long id);
+    JobPayload readJob(Long id);
 
-    List<JobDto> readJobs();
+    List<JobPayload> readJobs();
 
     Set<Job> readJobsByIdIn(Set<Long> jobs);
 
-    JobDto updateJob(Long id, JobDto jobDto);
+    JobPayload updateJob(Long id, JobPayload jobPayload);
 
     void deleteJob(Long id);
 }

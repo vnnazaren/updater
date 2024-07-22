@@ -1,18 +1,18 @@
 package com.vnazarenko.updater.launch;
 
-import com.vnazarenko.updater.launch.model.LaunchDto;
+import com.vnazarenko.updater.launch.model.LaunchPayload;
 
 import java.util.List;
 
 public interface LaunchService {
 
-    LaunchDto createLaunch(LaunchDto launchDto);
+    LaunchPayload createLaunch(LaunchPayload launchPayload);
 
-    LaunchDto readLaunch(Long id);
+    LaunchPayload readLaunch(Long id);
 
-    List<LaunchDto> readLaunches();
+    List<LaunchPayload> readLaunches();
 
-    LaunchDto updateLaunch(Long id, LaunchDto launchDto);
+    LaunchPayload updateLaunch(Long id, LaunchPayload launchPayload);
 
     void deleteLaunch(Long id);
 }

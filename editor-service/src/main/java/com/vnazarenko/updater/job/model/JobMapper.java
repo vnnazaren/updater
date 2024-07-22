@@ -40,16 +40,16 @@ public interface JobMapper {
             @Mapping(target = "jobList.id", source = "jobListId"),
             @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "idSetToJobSet")
     })
-    Job toEntity(JobDto JobDto);
+    Job toEntity(JobPayload jobPayload);
 
     @Mappings({
             @Mapping(target = "jobListId", source = "jobList.id"),
             @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "jobSetToIdSet")
     })
-    JobDto toDto(Job Job);
+    JobPayload toDto(Job Job);
 
-    List<JobDto> toDtoList(List<Job> jobList);
+    List<JobPayload> toDtoList(List<Job> jobList);
 
     @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "idSetToJobSet")
-    Job update(JobDto jobDto, @MappingTarget Job job);
+    Job update(JobPayload jobPayload, @MappingTarget Job job);
 }
