@@ -811,9 +811,10 @@
 									"    const rnd = new RandomUtils();",
 									"",
 									"    try {",
-									"        const taskList = await api.addTaskList(rnd.getTaskList());",
-									"        pm.collectionVariables.set(\"response\", taskList)",
-									"        pm.collectionVariables.set(\"taskListId\", taskList.id)",
+									"        let taskList = await api.addTaskList(rnd.getTaskList());",
+									"        let task = await api.addTask(rnd.getTask(taskList.id)); ",
+									"        pm.collectionVariables.set(\"response\", task)",
+									"        pm.collectionVariables.set(\"taskId\", task.id)",
 									"    } catch(err) {",
 									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);",
 									"    }",
@@ -891,7 +892,7 @@
 							"variable": [
 								{
 									"key": "taskId",
-									"value": ""
+									"value": "{{taskId}}"
 								}
 							]
 						}
@@ -909,11 +910,12 @@
 									"    const api = new API(pm);\r",
 									"    const rnd = new RandomUtils();\r",
 									"\r",
-									"    let taskList;\r",
+									"    let task;\r",
 									"    try {\r",
-									"        taskList = await api.addTaskList(rnd.getTaskList());\r",
-									"        pm.collectionVariables.set(\"response\", taskList)\r",
-									"        pm.collectionVariables.set(\"taskListId\", taskList.id)\r",
+									"        const taskList = await api.addTaskList(rnd.getTaskList());\r",
+									"        task = await api.addTask(rnd.getTask(taskList.id)); \r",
+									"        pm.collectionVariables.set(\"response\", task)\r",
+									"        pm.collectionVariables.set(\"taskId\", task.id)\r",
 									"    } catch(err) {\r",
 									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
 									"    }\r",
@@ -921,8 +923,8 @@
 									"    pm.request.body.update({\r",
 									"        mode: 'raw',\r",
 									"            raw: JSON.stringify({\r",
-									"                id: taskList.id,\r",
-									"                name : taskList.name + \" \" + taskList.id\r",
+									"                id: task.id,\r",
+									"                name : task.name + \" \" + task.id\r",
 									"            }),\r",
 									"        options: { raw: { language: 'json' } }\r",
 									"    });\r",
@@ -969,8 +971,8 @@
 									"\r",
 									"pm.test(\"Данные в ответе должны соответствовать данным в запросе\", function () {\r",
 									"    pm.expect(target.id).to.not.be.null;\r",
-									"    pm.expect(source.name + \" \" + pm.collectionVariables.get('taskListId')).equal(target.name, 'Имя списка задач должно соответствовать отправленному в запросе');\r",
-									"    pm.expect(source.status).equal(target.status, 'Статус списка задач данных должен соответствовать отправленному в запросе');\r",
+									"    pm.expect(source.name + \" \" + pm.collectionVariables.get('taskId')).equal(target.name, 'Имя задачи должно соответствовать отправленному в запросе');\r",
+									"    pm.expect(source.status).equal(target.status, 'Статус списка задач данных должен соответствовать отправленному в запросе'); \r",
 									"    pm.expect(source.description).equal(target.description, 'Логин списка задач должен соответствовать отправленному в запросе');\r",
 									"});"
 								],
@@ -1003,7 +1005,7 @@
 							"variable": [
 								{
 									"key": "taskId",
-									"value": ""
+									"value": "{{taskId}}"
 								}
 							]
 						},
