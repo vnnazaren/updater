@@ -9,7 +9,7 @@
         <version>24.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>editor-service</artifactId>
+    <artifactId>launcher-service</artifactId>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
