@@ -2,6 +2,8 @@ package com.vnazarenko.updater.database;
 
 import com.vnazarenko.updater.database.model.DatabasePayload;
 import com.vnazarenko.updater.util.Marker;
+import com.vnazarenko.updater.util.StatSaver;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import java.util.List;
 @RequestMapping("/dbs")
 public class DatabaseController {
     private final DatabaseService databaseService;
+    private final StatSaver statSaver;
 
     /**
      * Создание настроек БД
@@ -29,8 +32,10 @@ public class DatabaseController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DatabasePayload createDatabase(@Validated(Marker.OnCreate.class) @RequestBody DatabasePayload databasePayload) {
+    public DatabasePayload createDatabase(@Validated(Marker.OnCreate.class) @RequestBody DatabasePayload databasePayload,
+                                          HttpServletRequest httpServletRequest) {
         log.info("POST /dbs - %s".formatted(databasePayload));
+        statSaver.saveHit(httpServletRequest.getRemoteAddr(), httpServletRequest.getRequestURI(), httpServletRequest.getMethod());
         return databaseService.createDatabase(databasePayload);
     }
 
@@ -40,8 +45,9 @@ public class DatabaseController {
      * @return список с объектами DTO баз данных
      */
     @GetMapping
-    public List<DatabasePayload> readDatabases() {
+    public List<DatabasePayload> readDatabases(HttpServletRequest httpServletRequest) {
         log.info("GET /dbs");
+        statSaver.saveHit(httpServletRequest.getRemoteAddr(), httpServletRequest.getRequestURI(), httpServletRequest.getMethod());
         return databaseService.readDatabases();
     }
 
@@ -52,8 +58,10 @@ public class DatabaseController {
      * @return объект DTO базы данных
      */
     @GetMapping("/{id}")
-    public DatabasePayload readDatabase(@PathVariable("id") Long id) {
+    public DatabasePayload readDatabase(@PathVariable("id") Long id,
+                                        HttpServletRequest httpServletRequest) {
         log.info("GET /dbs/%d".formatted(id));
+        statSaver.saveHit(httpServletRequest.getRemoteAddr(), httpServletRequest.getRequestURI(), httpServletRequest.getMethod());
         return databaseService.readDatabase(id);
     }
 
@@ -66,8 +74,10 @@ public class DatabaseController {
      */
     @PatchMapping("/{id}")
     public DatabasePayload updateDatabase(@PathVariable Long id,
-                                          @Validated(Marker.OnUpdate.class) @RequestBody DatabasePayload databasePayload) {
+                                          @Validated(Marker.OnUpdate.class) @RequestBody DatabasePayload databasePayload,
+                                          HttpServletRequest httpServletRequest) {
         log.info("PATCH /dbs/%d - %s".formatted(id, databasePayload));
+        statSaver.saveHit(httpServletRequest.getRemoteAddr(), httpServletRequest.getRequestURI(), httpServletRequest.getMethod());
         return databaseService.updateDatabase(id, databasePayload);
     }
 
@@ -78,8 +88,10 @@ public class DatabaseController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteDatabase(@PathVariable("id") Long id) {
+    public void deleteDatabase(@PathVariable("id") Long id,
+                               HttpServletRequest httpServletRequest) {
         log.info("DELETE /dbs/%d".formatted(id));
+        statSaver.saveHit(httpServletRequest.getRemoteAddr(), httpServletRequest.getRequestURI(), httpServletRequest.getMethod());
         databaseService.deleteDatabase(id);
     }
 }

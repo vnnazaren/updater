@@ -14,7 +14,7 @@
     <modules>
         <module>editor-service</module>
         <module>launcher-service</module>
-        <module>stats-service</module>
+        <module>stat-service</module>
     </modules>
 
     <properties>

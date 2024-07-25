@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Positive;
 /**
  * Класс DTO класса "Сценарий" - Scenario
  */
-
 public record ScenarioPayload(
 
         @Positive

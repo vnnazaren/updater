@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 /**
  * Класс DTO класса "Запуск" - Launch
  */
-
 public record LaunchPayload(
 
         @Positive

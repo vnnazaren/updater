@@ -24,5 +24,6 @@ public interface ScenarioMapper {
 
     List<ScenarioPayload> toDtoList(List<Scenario> scenarioList);
 
-    Scenario update(ScenarioPayload scenarioPayload, @MappingTarget Scenario scenario);
+    Scenario update(ScenarioPayload scenarioPayload,
+                    @MappingTarget Scenario scenario);
 }

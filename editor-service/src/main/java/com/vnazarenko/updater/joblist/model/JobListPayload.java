@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 /**
  * Класс DTO класса "JobList"
  */
-
 public record JobListPayload(
 
         @Positive
