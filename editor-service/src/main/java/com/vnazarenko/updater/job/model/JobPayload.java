@@ -13,6 +13,7 @@ import java.util.Set;
  * Выполняется в конкретное время, на конкретной базе, в рамках конкретного JobListPayload,
  * созданного на основе конкретного Сценария.<br/>
  */
+
 public record JobPayload(
 
         @Positive

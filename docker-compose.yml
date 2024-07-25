@@ -1,5 +1,28 @@
 version: '3.1'
 services:
+  stat-server:
+    build: stat-service/stat-server
+    image: stat-server-image
+    container_name: stat-server-container
+    ports:
+      - "9090:9090"
+    depends_on:
+      - stat-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stat-db-container:5432/stat
+      - SPRING_DATASOURCE_USERNAME=admin_stat
+      - SPRING_DATASOURCE_PASSWORD=1yWX1bnLDH3leGPOLeJAvLjLPx8ktKH
+
+  stat-db:
+    image: postgres:latest
+    container_name: stat-db-container
+    ports:
+      - "6541:5432"
+    environment:
+      - POSTGRES_DB=stat
+      - POSTGRES_USER=admin_stat
+      - POSTGRES_PASSWORD=1yWX1bnLDH3leGPOLeJAvLjLPx8ktKH
+
   editor-service:
     build: editor-service
     image: editor-service-image
@@ -8,41 +31,18 @@ services:
       - "8080:8080"
     depends_on:
       - updater-db
-      - stats-server
+      - stat-server
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db-container:5432/com.vnazarenko.updater
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://updater-db-container:5432/updater
       - SPRING_DATASOURCE_USERNAME=admin_updater
       - SPRING_DATASOURCE_PASSWORD=CrpDcdW9E2N1KHbJBRrsM9PzWv80xKZ
 
   updater-db:
-    image: postgres:16.3-alpine
-    container_name: com.vnazarenko.updater-db-container
+    image: postgres:latest
+    container_name: updater-db-container
     ports:
       - "6542:5432"
     environment:
-      - POSTGRES_DB=com.vnazarenko.updater
+      - POSTGRES_DB=updater
       - POSTGRES_USER=admin_updater
       - POSTGRES_PASSWORD=CrpDcdW9E2N1KHbJBRrsM9PzWv80xKZ
-
-  stats-server:
-    build: stats-service/stat-server
-    image: stats-server-image
-    container_name: stats-server-container
-    ports:
-      - "9090:9090"
-    depends_on:
-      - stats-db
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db-container:5432/stat
-      - SPRING_DATASOURCE_USERNAME=admin_stat
-      - SPRING_DATASOURCE_PASSWORD=1yWX1bnLDH3leGPOLeJAvLjLPx8ktKH
-
-  stats-db:
-    image: postgres:16.3-alpine
-    container_name: stats-db-container
-    ports:
-      - "6541:5432"
-    environment:
-      - POSTGRES_DB=stat
-      - POSTGRES_USER=admin_stat
-      - POSTGRES_PASSWORD=1yWX1bnLDH3leGPOLeJAvLjLPx8ktKH

@@ -12,14 +12,14 @@
 
     <packaging>pom</packaging>
     <modules>
+        <module>stat-service</module>
         <module>editor-service</module>
         <module>launcher-service</module>
-        <module>stat-service</module>
     </modules>
 
     <properties>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>3.3.1</spring-boot.version>
         <lombok.version>1.18.34</lombok.version>

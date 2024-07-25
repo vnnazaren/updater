@@ -31,7 +31,7 @@ public class Scenario {
     /**
      * Идентификатор планировщика
      */
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "scheduler_id", referencedColumnName = "id", nullable = false)
     private Scheduler scheduler;
@@ -39,7 +39,7 @@ public class Scenario {
     /**
      * Идентификатор конкретной базы данных
      */
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "database_id", referencedColumnName = "id", nullable = false)
     private Database database;
@@ -47,7 +47,7 @@ public class Scenario {
     /**
      * Идентификатор сценария
      */
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "task_list_id", referencedColumnName = "id", nullable = false)
     private TaskList taskList;
