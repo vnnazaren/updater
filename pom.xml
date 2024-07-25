@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>editor-service</module>
+        <module>launcher-service</module>
         <module>stats-service</module>
     </modules>
 
