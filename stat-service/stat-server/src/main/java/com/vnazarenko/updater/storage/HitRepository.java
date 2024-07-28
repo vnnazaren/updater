@@ -1,6 +1,5 @@
 package com.vnazarenko.updater.storage;
 
-import com.vnazarenko.updater.dto.StatDto;
 import com.vnazarenko.updater.model.Hit;
 import com.vnazarenko.updater.model.Stat;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,7 +20,7 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
             "group by h.app, h.uri " +
             "order by count(h.ipAddress) desc")
     List<Stat> getHits(@Param("start") LocalDateTime start,
-                          @Param("end") LocalDateTime end);
+                       @Param("end") LocalDateTime end);
 
     @Query(value = "select new com.vnazarenko.updater.model.Stat(h.app, h.uri, count(distinct h.ipAddress)) " +
             " from Hit as h " +

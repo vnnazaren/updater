@@ -1,8 +1,5 @@
 package com.vnazarenko.updater.exceptions;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * Класс с сообщением об ошибке
  */

@@ -2,6 +2,7 @@ package com.vnazarenko.updater.database;
 
 import com.vnazarenko.updater.database.model.DatabasePayload;
 import com.vnazarenko.updater.util.Marker;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,13 @@ public class DatabaseController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DatabasePayload createDatabase(@Validated(Marker.OnCreate.class) @RequestBody DatabasePayload databasePayload) {
+    public DatabasePayload createDatabase(@Validated(Marker.OnCreate.class) @RequestBody DatabasePayload databasePayload,
+                                          HttpServletRequest httpServletRequest) {
         log.info("POST /dbs - %s".formatted(databasePayload));
+        log.info("RemoteAddr - %s\nRequestURI - %s\nMethod - %s"
+                .formatted(httpServletRequest.getRemoteAddr(),
+                        httpServletRequest.getRequestURI(),
+                        httpServletRequest.getMethod()));
         return databaseService.createDatabase(databasePayload);
     }
 

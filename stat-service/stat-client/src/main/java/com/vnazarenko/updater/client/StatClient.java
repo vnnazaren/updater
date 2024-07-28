@@ -1,11 +1,11 @@
 package com.vnazarenko.updater.client;
 
+import com.vnazarenko.updater.dto.HitDto;
+import com.vnazarenko.updater.dto.StatDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import com.vnazarenko.updater.dto.HitDto;
-import com.vnazarenko.updater.dto.StatDto;
 
 import java.util.List;
 import java.util.Map;
