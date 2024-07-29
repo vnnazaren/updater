@@ -6,21 +6,13 @@ import jakarta.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 /**
- * Класс DTO класса "Планировщик" - Scheduler
+ * Класс DTO класса "Scheduler"
  */
-
-public record SchedulerPayload(
-
-        @Positive
-        Long id,
-
-        String name,
-
-        @JsonFormat
-        LocalDateTime scheduleToStart,
-
-        Boolean isActive,
-
-        String description
-) {
+public record SchedulerPayload(@Positive
+                               Long id,
+                               String name,
+                               @JsonFormat
+                               LocalDateTime scheduleToStart,
+                               Boolean isActive,
+                               String description) {
 }

@@ -28,28 +28,21 @@ public interface JobMapper {
             return Collections.emptySet();
         }
         return ancestors.stream()
-                .map(jobId ->
-                        Job.builder()
-                                .id(jobId)
-                                .build()
-                )
+                .map(jobId -> Job.builder().id(jobId).build())
                 .collect(Collectors.toSet());
     }
 
-    @Mappings({
-            @Mapping(target = "jobList.id", source = "jobListId"),
-            @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "idSetToJobSet")
-    })
+    @Mappings({@Mapping(target = "jobList.id", source = "jobListId"),
+            @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "idSetToJobSet")})
     Job toEntity(JobPayload jobPayload);
 
-    @Mappings({
-            @Mapping(target = "jobListId", source = "jobList.id"),
-            @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "jobSetToIdSet")
-    })
+    @Mappings({@Mapping(target = "jobListId", source = "jobList.id"),
+            @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "jobSetToIdSet")})
     JobPayload toDto(Job Job);
 
     List<JobPayload> toDtoList(List<Job> jobList);
 
-    @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "idSetToJobSet")
+    @Mappings({@Mapping(target = "jobList.id", source = "jobListId"),
+            @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "idSetToJobSet")})
     Job update(JobPayload jobPayload, @MappingTarget Job job);
 }

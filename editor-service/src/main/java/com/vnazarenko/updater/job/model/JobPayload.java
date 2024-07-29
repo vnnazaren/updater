@@ -9,46 +9,25 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Экземпляр Задачи запущенной в работу.<br/>
- * Выполняется в конкретное время, на конкретной базе, в рамках конкретного JobListPayload,
- * созданного на основе конкретного Сценария.<br/>
+ * Класс DTO класса "Job"
  */
-
-public record JobPayload(
-
-        @Positive
-        Long id,
-
-        String name,
-
-        Long jobListId,
-
-        ActionType actionType,
-
-        String actionScript,
-
-        String expectedResult,
-
-        String flags,
-
-        StatusType status,
-
-        String description,
-
-        String dbProcId,
-
-        @JsonFormat
-        LocalDateTime startDateTime,
-
-        @JsonFormat
-        LocalDateTime endDateTime,
-
-        String incomingContext,
-
-        String context,
-
-        String infoMsg,
-
-        Set<Long> ancestors
-) {
+public record JobPayload(@Positive
+                         Long id,
+                         String name,
+                         Long jobListId,
+                         ActionType actionType,
+                         String actionScript,
+                         String expectedResult,
+                         String flags,
+                         StatusType status,
+                         String description,
+                         String dbProcId,
+                         @JsonFormat
+                         LocalDateTime startDateTime,
+                         @JsonFormat
+                         LocalDateTime endDateTime,
+                         String incomingContext,
+                         String context,
+                         String infoMsg,
+                         Set<Long> ancestors) {
 }

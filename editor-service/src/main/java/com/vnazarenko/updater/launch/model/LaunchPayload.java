@@ -8,24 +8,16 @@ import jakarta.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 /**
- * Класс DTO класса "Запуск" - Launch
+ * Класс DTO класса "Launch"
  */
-
-public record LaunchPayload(
-
-        @Positive
-        Long id,
-
-        @NotNull(message = "Id планировщика - инициатора должен быть указан.")
-        Long schedulerId,
-
-        @NotNull(message = "Статус запуска должен быть указан.")
-        StatusType status,
-
-        @JsonFormat
-        LocalDateTime startDateTime,
-
-        @JsonFormat
-        LocalDateTime endDateTime
-) {
+public record LaunchPayload(@Positive
+                            Long id,
+                            @NotNull(message = "Id планировщика - инициатора должен быть указан.")
+                            Long schedulerId,
+                            @NotNull(message = "Статус запуска должен быть указан.")
+                            StatusType status,
+                            @JsonFormat
+                            LocalDateTime startDateTime,
+                            @JsonFormat
+                            LocalDateTime endDateTime) {
 }

@@ -6,21 +6,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 /**
- * Класс DTO класса "Сценарий" - TaskList
+ * Класс DTO класса "TaskList"
  */
-
-public record TaskListPayload(
-
-        @Positive
-        Long id,
-
-        @NotBlank(message = "Имя сценария должно быть указано.")
-        String name,
-
-        @NotNull(message = "Статус сценария должен быть указан.")
-        StatusType status,
-
-        @NotBlank(message = "Описание сценария должно быть указано.")
-        String description
-) {
+public record TaskListPayload(@Positive
+                              Long id,
+                              @NotBlank(message = "Имя сценария должно быть указано.")
+                              String name,
+                              @NotNull(message = "Статус сценария должен быть указан.")
+                              StatusType status,
+                              @NotBlank(message = "Описание сценария должно быть указано.")
+                              String description) {
 }

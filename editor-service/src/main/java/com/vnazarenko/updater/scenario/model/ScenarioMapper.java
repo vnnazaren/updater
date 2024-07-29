@@ -8,21 +8,20 @@ import java.util.List;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ScenarioMapper {
 
-    @Mappings({
-            @Mapping(target = "scheduler.id", source = "schedulerId"),
+    @Mappings({@Mapping(target = "scheduler.id", source = "schedulerId"),
             @Mapping(target = "database.id", source = "databaseId"),
-            @Mapping(target = "taskList.id", source = "taskListId")
-    })
+            @Mapping(target = "taskList.id", source = "taskListId")})
     Scenario toEntity(ScenarioPayload scenarioPayload);
 
-    @Mappings({
-            @Mapping(target = "schedulerId", source = "scheduler.id"),
+    @Mappings({@Mapping(target = "schedulerId", source = "scheduler.id"),
             @Mapping(target = "databaseId", source = "database.id"),
-            @Mapping(target = "taskListId", source = "taskList.id")
-    })
+            @Mapping(target = "taskListId", source = "taskList.id")})
     ScenarioPayload toDto(Scenario scenario);
 
     List<ScenarioPayload> toDtoList(List<Scenario> scenarioList);
 
+    @Mappings({@Mapping(target = "scheduler.id", source = "schedulerId"),
+            @Mapping(target = "database.id", source = "databaseId"),
+            @Mapping(target = "taskList.id", source = "taskListId")})
     Scenario update(ScenarioPayload scenarioPayload, @MappingTarget Scenario scenario);
 }

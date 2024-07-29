@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.vnazarenko.updater.util.Const.FORMATTER;
-
 /**
  * Класс-контроллер Database
  */
@@ -39,10 +37,6 @@ public class DatabaseController {
     public DatabasePayload createDatabase(@Validated(Marker.OnCreate.class) @RequestBody DatabasePayload databasePayload,
                                           HttpServletRequest httpServletRequest) {
         log.info("POST /dbs - %s".formatted(databasePayload));
-        log.info("RemoteAddr - %s\nRequestURI - %s\nMethod - %s"
-                .formatted(httpServletRequest.getRemoteAddr(),
-                        httpServletRequest.getRequestURI(),
-                        httpServletRequest.getMethod()));
         statClient.saveHit(new StatIn("editor-service",
                 httpServletRequest.getRemoteAddr(),
                 httpServletRequest.getRequestURI(),

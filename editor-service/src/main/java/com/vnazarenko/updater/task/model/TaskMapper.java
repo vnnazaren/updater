@@ -28,28 +28,21 @@ public interface TaskMapper {
             return Collections.emptySet();
         }
         return ancestors.stream()
-                .map(taskId ->
-                        Task.builder()
-                                .id(taskId)
-                                .build()
-                )
+                .map(taskId -> Task.builder().id(taskId).build())
                 .collect(Collectors.toSet());
     }
 
-    @Mappings({
-            @Mapping(target = "taskList.id", source = "taskListId"),
-            @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "idSetToTaskSet")
-    })
+    @Mappings({@Mapping(target = "taskList.id", source = "taskListId"),
+            @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "idSetToTaskSet")})
     Task toEntity(TaskPayload taskPayload);
 
-    @Mappings({
-            @Mapping(target = "taskListId", source = "taskList.id"),
-            @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "taskSetToIdSet")
-    })
+    @Mappings({@Mapping(target = "taskListId", source = "taskList.id"),
+            @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "taskSetToIdSet")})
     TaskPayload toDto(Task task);
 
     List<TaskPayload> toDtoList(List<Task> taskList);
 
-    @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "idSetToTaskSet")
+    @Mappings({@Mapping(target = "taskList.id", source = "taskListId"),
+            @Mapping(target = "ancestors", source = "ancestors", qualifiedByName = "idSetToTaskSet")})
     Task update(TaskPayload taskPayload, @MappingTarget Task task);
 }

@@ -14,6 +14,7 @@ import lombok.*;
 @Entity
 @Table(name = "databases")
 public class Database {     // todo - где-то нужно реализовать проверку соединения с БД
+
     /**
      * Системный идентификатор
      */
