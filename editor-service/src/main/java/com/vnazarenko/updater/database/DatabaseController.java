@@ -1,6 +1,8 @@
 package com.vnazarenko.updater.database;
 
 import com.vnazarenko.updater.database.model.DatabasePayload;
+import com.vnazarenko.updater.stat.StatClient;
+import com.vnazarenko.updater.stat.model.StatIn;
 import com.vnazarenko.updater.util.Marker;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.vnazarenko.updater.util.Const.FORMATTER;
 
 /**
  * Класс-контроллер Database
@@ -21,6 +26,7 @@ import java.util.List;
 @RequestMapping("/dbs")
 public class DatabaseController {
     private final DatabaseService databaseService;
+    private final StatClient statClient;
 
     /**
      * Создание настроек БД
@@ -37,6 +43,11 @@ public class DatabaseController {
                 .formatted(httpServletRequest.getRemoteAddr(),
                         httpServletRequest.getRequestURI(),
                         httpServletRequest.getMethod()));
+        statClient.saveHit(new StatIn("editor-service",
+                httpServletRequest.getRemoteAddr(),
+                httpServletRequest.getRequestURI(),
+                httpServletRequest.getMethod(),
+                LocalDateTime.now()));
         return databaseService.createDatabase(databasePayload);
     }
 

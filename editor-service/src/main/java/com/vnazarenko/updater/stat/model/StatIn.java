@@ -1,17 +1,17 @@
-package com.vnazarenko.updater.dto;
+package com.vnazarenko.updater.stat.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-import static com.vnazarenko.updater.dto.Const.DATE_TIME_FORMAT;
+import static com.vnazarenko.updater.util.Const.DATE_TIME_FORMAT;
 
 /**
  * Класс DTO класса получения статистики HIT
  */
 @Builder
-public record HitDto(String app,
+public record StatIn(String app,
                      String ip,
                      String uri,
                      String method,

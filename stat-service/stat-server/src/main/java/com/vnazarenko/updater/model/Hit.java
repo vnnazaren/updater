@@ -30,8 +30,11 @@ public class Hit {
     @Column(name = "uri", nullable = false)
     private String uri;
 
-    @Column(name = "ip_address", nullable = false)
-    private String ipAddress;
+    @Column(name = "ip", nullable = false)
+    private String ip;
+
+    @Column(name = "method", nullable = false)
+    private String method;
 
     @Column(name = "hit_date", nullable = false)
     @JsonFormat
