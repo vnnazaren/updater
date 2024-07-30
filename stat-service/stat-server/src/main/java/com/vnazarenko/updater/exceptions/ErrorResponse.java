@@ -7,16 +7,9 @@ import lombok.Getter;
 /**
  * Класс с сообщением об ошибке
  */
-@Getter
 @Builder
-@AllArgsConstructor
-public class ErrorResponse {
-
-    private String message;
-
-    private String reason;
-
-    private String status;
-
-    private String timestamp;
+public record ErrorResponse(String message,
+                            String reason,
+                            String status,
+                            String timestamp) {
 }
