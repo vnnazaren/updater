@@ -2,12 +2,11 @@ package com.vnazarenko.updater.model;
 
 import com.vnazarenko.updater.dto.HitDto;
 import com.vnazarenko.updater.dto.StatDto;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedTargetPolicy = ReportingPolicy.WARN)
 public interface StatMapper {
 
     @Mappings({@Mapping(target = "hitDate", source = "timestamp"),
