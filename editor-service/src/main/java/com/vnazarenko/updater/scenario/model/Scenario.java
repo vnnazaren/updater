@@ -1,6 +1,6 @@
 package com.vnazarenko.updater.scenario.model;
 
-import com.vnazarenko.updater.database.model.Database;
+import com.vnazarenko.updater.databasegroup.model.DatabaseGroup;
 import com.vnazarenko.updater.scheduler.model.Scheduler;
 import com.vnazarenko.updater.tasklist.model.TaskList;
 import jakarta.persistence.*;
@@ -41,8 +41,8 @@ public class Scenario {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "database_id", referencedColumnName = "id", nullable = false)
-    private Database database;
+    @JoinColumn(name = "database_group_id", referencedColumnName = "id", nullable = false)
+    private DatabaseGroup databaseGroup;
 
     /**
      * Идентификатор сценария

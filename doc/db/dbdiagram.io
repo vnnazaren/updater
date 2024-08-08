@@ -1,3 +1,26 @@
+Table "database_groups" {
+  "id" bigint [pk, not null, increment]
+  "name" varchar(255) [not null]
+  "description" varchar(4000)
+}
+
+Table "database_groups_links" {
+  "database_group_id" bigint [not null]
+  "database_id" bigint [not null]
+
+    Indexes {
+    (database_group_id, database_id) [pk]
+  }
+}
+
+Table "task_list_groups_links" {
+  "database_group_id" bigint [not null]
+  "task_list_id" bigint [not null]
+
+    Indexes {
+    (database_group_id, task_list_id) [pk]
+  }
+}
 
 Table "databases" {
   "id" bigint [pk, not null, increment]
@@ -22,14 +45,14 @@ Table "schedulers" {
   "name" varchar(255)
   "schedule_to_start" timestamp
   "is_active" bool
-  "description" varchar(1000)
+  "description" varchar(4000)
 }
 
 Table "task_lists" {
   "id" bigint [pk, not null, increment]
   "name" varchar(255)
   "status" varchar(32) [not null]
-  "description" varchar(1000)
+  "description" varchar(4000)
 }
 
 Table "job_lists" {
@@ -47,7 +70,7 @@ Table "job_lists" {
 Table "scenarios" {
   "id" bigint [pk, not null, increment]
   "scheduler_id" bigint [not null]
-  "database_id" bigint [not null]
+  "database_group_id" bigint [not null]
   "task_list_id" bigint [not null]
   "init_context" varchar(4000)
   "label" varchar(255)
@@ -118,7 +141,7 @@ Ref:"task_lists"."id" < "job_lists"."task_list_id"
 
 Ref:"launches"."id" < "job_lists"."launch_id"
 
-Ref:"databases"."id" < "scenarios"."database_id"
+Ref:"database_groups"."id" < "scenarios"."database_group_id"
 
 Ref:"task_lists"."id" < "scenarios"."task_list_id"
 
@@ -127,3 +150,11 @@ Ref:"schedulers"."id" < "scenarios"."scheduler_id"
 Ref:"task_lists"."id" < "tasks"."task_list_id"
 
 Ref:"job_lists"."id" < "jobs"."job_list_id"
+
+Ref:"databases"."id" < "database_groups_links"."database_id"
+
+Ref:"task_lists"."id" < "task_list_groups_links"."task_list_id"
+
+Ref:"database_groups"."id" < "database_groups_links"."database_group_id"
+
+Ref:"database_groups"."id" < "task_list_groups_links"."database_group_id"

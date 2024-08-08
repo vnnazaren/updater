@@ -11,9 +11,9 @@ public record ScenarioPayload(@Positive
                               @NotNull(message = "Id планировщика должен быть указан.")
                               @Positive
                               Long schedulerId,
-                              @NotNull(message = "Id базы данных должен быть указан.")
+                              @NotNull(message = "Id группы баз данных должен быть указан.")
                               @Positive
-                              Long databaseId,
+                              Long databaseGroupId,
                               @NotNull(message = "Id списка задач должен быть указан.")
                               @Positive
                               Long taskListId,

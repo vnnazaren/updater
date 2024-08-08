@@ -10,19 +10,19 @@ import java.util.List;
 public interface ScenarioMapper {
 
     @Mappings({@Mapping(target = "scheduler.id", source = "schedulerId"),
-            @Mapping(target = "database.id", source = "databaseId"),
+            @Mapping(target = "databaseGroup.id", source = "databaseGroupId"),
             @Mapping(target = "taskList.id", source = "taskListId")})
     Scenario toEntity(ScenarioPayload scenarioPayload);
 
     @Mappings({@Mapping(target = "schedulerId", source = "scheduler.id"),
-            @Mapping(target = "databaseId", source = "database.id"),
+            @Mapping(target = "databaseGroupId", source = "databaseGroup.id"),
             @Mapping(target = "taskListId", source = "taskList.id")})
     ScenarioPayload toDto(Scenario scenario);
 
     List<ScenarioPayload> toDtoList(List<Scenario> scenarioList);
 
     @Mappings({@Mapping(target = "scheduler.id", source = "schedulerId"),
-            @Mapping(target = "database.id", source = "databaseId"),
+            @Mapping(target = "databaseGroup.id", source = "databaseGroupId"),
             @Mapping(target = "taskList.id", source = "taskListId")})
     Scenario update(ScenarioPayload scenarioPayload, @MappingTarget Scenario scenario);
 }
