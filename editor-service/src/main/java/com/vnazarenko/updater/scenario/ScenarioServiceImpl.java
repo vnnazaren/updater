@@ -27,7 +27,7 @@ public class ScenarioServiceImpl implements ScenarioService {
     public ScenarioPayload readScenario(Long id) {
         return mapper.toDto(dao.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("TaskList with id \"%d\" not found".formatted(id))));
+                        new EntityNotFoundException("Scenario with id \"%d\" not found".formatted(id))));
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.vnazarenko.updater.tasklist.model;
 
+import com.vnazarenko.updater.databasegroup.model.DatabaseGroup;
 import com.vnazarenko.updater.util.StatusType;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Set;
 
 /**
  * Класс TaskList описывает настройки сценария
@@ -42,4 +45,13 @@ public class TaskList {
      */
     @Column(name = "description")
     private String description;
+
+    /**
+     * Коллекция с базами данных входящих в подборку
+     */
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "task_list_groups_links",
+            joinColumns = @JoinColumn(name = "task_list_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "database_group_id", referencedColumnName = "id"))
+    private Set<DatabaseGroup> databaseGroups;
 }
