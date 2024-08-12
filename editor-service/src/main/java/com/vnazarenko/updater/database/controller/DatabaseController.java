@@ -1,5 +1,6 @@
-package com.vnazarenko.updater.database;
+package com.vnazarenko.updater.database.controller;
 
+import com.vnazarenko.updater.database.DatabaseService;
 import com.vnazarenko.updater.database.model.DatabasePayload;
 import com.vnazarenko.updater.stat.StatClient;
 import com.vnazarenko.updater.stat.model.StatIn;

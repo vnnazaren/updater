@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование базы данных &laquo;[[${database.name}]]&raquo; &ndash; The Updater</title>
+</head>
+<body>
+<a data-th-href="@{/}">&larr; На главную страницу</a>
+<br/>
+<br/>
+<a data-th-href="@{/databases/{databaseId}(databaseId=${database.id})}">&larr; К базе данных</a>
+
+<h1>Редактирование базы данных &laquo;[[${database.name}]]&raquo;</h1>
+
+<div data-th-if="${errors}">
+    <h2>Допущены ошибки</h2>
+    <ul>
+        <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+    </ul>
+</div>
+
+<form method="post" data-th-action="@{/databases/{databaseId}/edit(databaseId=${database.id})}">
+
+    <table>
+        <thead>
+        <tr>
+            <th>Параметр</th>
+            <th>Значение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ID</td>
+            <td>
+                <label>
+                    <input type="text" name="id" data-th-value="${database.id}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Имя</td>
+            <td>
+                <label>
+                    <input type="text" name="name" data-th-value="${payload != null ? payload.name : database.name}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Адрес</td>
+            <td>
+                <label>
+                    <input type="text" name="url" data-th-value="${payload != null ? payload.url : database.url}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Порт</td>
+            <td>
+                <label>
+                    <input type="text" name="port" data-th-value="${payload != null ? payload.port : database.port}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Логин</td>
+            <td>
+                <label>
+                    <input type="text" name="login" data-th-value="${payload != null ? payload.login : database.login}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Пароль</td>
+            <td>
+                <label>
+                    <input type="text" name="password" data-th-value="${payload != null ? payload.password : database.password}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Прод?</td>
+            <td>
+                <label>
+                    <input type="text" name="isProd" data-th-value="${payload != null ? payload.isProd : database.isProd}">
+                </label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button type="submit">Изменить</button>
+</form>
+
+</body>
+</html>

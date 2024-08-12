@@ -25,6 +25,7 @@
         <lombok.version>1.18.34</lombok.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <mapstruct-processor.version>1.5.5.Final</mapstruct-processor.version>
+        <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -62,7 +63,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.12.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <parameters>true</parameters>
                 </configuration>

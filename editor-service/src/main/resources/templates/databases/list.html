@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список баз данных &ndash; The Updater</title>
+</head>
+<body>
+<a data-th-href="@{/}">&larr; На главную страницу</a>
+<br/>
+<br/>
+<a data-th-href="@{/databases/create}">+ Создать базу данных</a>
+<h1>Список баз данных</h1>
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>База данных</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-th-each="database : ${databases}">
+        <td data-th-text="${database.id}"></td>
+        <td>
+            <a data-th-href="@{/databases/{databaseId}(databaseId=${database.id})}"
+               data-th-text="${database.name}"></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

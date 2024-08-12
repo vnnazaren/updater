@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Новая база данных &ndash; The Updater</title>
+</head>
+<body>
+<a data-th-href="@{/}">&larr; На главную страницу</a>
+<br/>
+<br/>
+<a data-th-href="@{/databases/list}">&larr; К списку баз данных</a>
+
+<h1>Новая база данных</h1>
+
+<div data-th-if="${errors}">
+    <h2>Допущены ошибки</h2>
+    <ul>
+        <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+    </ul>
+</div>
+
+<form method="post" data-th-action="@{/databases/create}">
+
+    <table>
+        <thead>
+        <tr>
+            <th>Параметр</th>
+            <th>Значение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Имя</td>
+            <td>
+                <label>
+                    <input type="text" name="name" data-th-value="${payload?.name}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Адрес</td>
+            <td>
+                <label>
+                    <input name="url" data-th-text="${payload?.url}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Порт</td>
+            <td>
+                <label>
+                    <input name="port" data-th-text="${payload?.port}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Логин</td>
+            <td>
+                <label>
+                    <input name="login" data-th-text="${payload?.login}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Пароль</td>
+            <td>
+                <label>
+                    <input name="password" data-th-text="${payload?.password}">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Прод?</td>
+            <td>
+                <label>
+                    <input name="isProd" data-th-text="${payload?.isProd}">
+                </label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button type="submit">Создать</button>
+</form>
+
+</body>
+</html>

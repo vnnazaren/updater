@@ -1,8 +1,8 @@
 -- https://dbdiagram.io/d/updater-65e07ba0cd45b569fb35e2d1
 
-drop table if exists databases, launches,schedulers,task_lists,job_lists,
-    database_groups, database_groups_links, task_list_groups_links,
-    scenarios,tasks, jobs, ancestor_task_links, ancestor_job_links cascade;
+-- drop table if exists databases, launches,schedulers,task_lists,job_lists,
+--     database_groups, database_groups_links, task_list_groups_links,
+--     scenarios,tasks, jobs, ancestor_task_links, ancestor_job_links cascade;
 
 create table if not exists databases
 (
