@@ -5,11 +5,12 @@
     <title>Список баз данных &ndash; The Updater</title>
 </head>
 <body>
-<a data-th-href="@{/}">&larr; На главную страницу</a>
-<br/>
-<br/>
-<a data-th-href="@{/databases/create}">+ Создать базу данных</a>
+<form method="get" data-th-action="@{/}">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+
 <h1>Список баз данных</h1>
+
 <table>
     <thead>
     <tr>
@@ -27,5 +28,9 @@
     </tr>
     </tbody>
 </table>
+<br/>
+<form method="get" data-th-action="@{/databases/create}">
+    <button type="submit">Добавить базу данных</button>
+</form>
 </body>
 </html>

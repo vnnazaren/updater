@@ -5,10 +5,9 @@
     <title>Новая база данных &ndash; The Updater</title>
 </head>
 <body>
-<a data-th-href="@{/}">&larr; На главную страницу</a>
-<br/>
-<br/>
-<a data-th-href="@{/databases/list}">&larr; К списку баз данных</a>
+<form method="get" data-th-action="@{/}">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
 
 <h1>Новая база данных</h1>
 
@@ -79,8 +78,12 @@
         </tr>
         </tbody>
     </table>
-
+<br/>
     <button type="submit">Создать</button>
+</form>
+<br/>
+<form method="get" data-th-action="@{/databases/list}">
+    <button type="submit">Отменить</button>
 </form>
 
 </body>
