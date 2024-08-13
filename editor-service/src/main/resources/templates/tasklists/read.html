@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${tasklist.name}]] &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+<br/>
+<form data-th-action="@{/tasklists/list}" method="get">
+    <button type="submit">&larr; К спискам задач</button>
+</form>
+
+<h1>Просмотр списка задач &laquo;[[${tasklist.name}]]&raquo;</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ПАРАМЕТР</th>
+        <th>ЗНАЧЕНИЕ</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><strong>ID</strong></td>
+        <td><span data-th-text="${tasklist.id}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Имя</strong></td>
+        <td><span data-th-text="${tasklist.name}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Статус</strong></td>
+        <td><span data-th-text="${tasklist.status}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Описание</strong></td>
+        <td><span data-th-text="${tasklist.description}"></span></td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<form data-th-action="@{/tasklists/{tasklistId}/edit(tasklistId=${tasklist.id})}" method="get">
+    <button type="submit">Изменить</button>
+</form>
+<br/>
+<form data-th-action="@{/tasklists/{tasklistId}/delete(tasklistId=${tasklist.id})}" method="post">
+    <button type="submit">Удалить</button>
+</form>
+
+</body>
+</html>

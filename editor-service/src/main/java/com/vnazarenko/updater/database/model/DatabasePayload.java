@@ -7,11 +7,14 @@ import jakarta.validation.constraints.*;
  * Класс DTO класса "Database"
  */
 public record DatabasePayload(@NotNull(groups = {Marker.OnUpdate.class})
-                              @Positive Long id,
+                              Long id,
+                              @Size(min = 1, max = 255,
+                                      message = "Длина имени базы данных должна быть от 1 до 255 символов.")
                               String name,
                               @NotBlank(groups = {Marker.OnCreate.class},
                                       message = "Адрес базы данных должен быть указан.")
-                              @Size(min = 1, max = 255,
+                              @Size(groups = {Marker.OnCreate.class, Marker.OnUpdate.class},
+                                      min = 1, max = 255,
                                       message = "Длина адреса базы данных должно быть от 1 до 255 символов.")
                               String url,
                               @NotNull(groups = {Marker.OnCreate.class},
@@ -25,11 +28,14 @@ public record DatabasePayload(@NotNull(groups = {Marker.OnUpdate.class})
                               Integer port,
                               @NotBlank(groups = {Marker.OnCreate.class},
                                       message = "Логин тех. пользователя базы данных должен быть указан.")
-                              @Size(min = 1, max = 255, message = "Длина логина тех. пользователя базы данных должно быть от 1 до 255 символов.")
+                              @Size(groups = {Marker.OnCreate.class, Marker.OnUpdate.class},
+                                      min = 1, max = 255,
+                                      message = "Длина логина тех. пользователя базы данных должно быть от 1 до 255 символов.")
                               String login,
                               @NotBlank(groups = {Marker.OnCreate.class},
                                       message = "Пароль тех. пользователя базы данных должен быть указан.")
-                              @Size(min = 1, max = 255,
+                              @Size(groups = {Marker.OnCreate.class, Marker.OnUpdate.class},
+                                      min = 1, max = 255,
                                       message = "Длина пароля базы данных должно быть от 1 до 255 символов.")
                               String password,
                               @NotNull(groups = {Marker.OnCreate.class},

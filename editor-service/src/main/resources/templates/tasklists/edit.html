@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование списка задач &laquo;[[${tasklist.name}]]&raquo; &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+<br/>
+<form data-th-action="@{/tasklists/list}" method="get">
+    <button type="submit">&larr; К спискам задач</button>
+</form>
+
+<h1>Редактирование списка задач &laquo;[[${tasklist.name}]]&raquo;</h1>
+
+<div data-th-if="${errors}">
+    <h2>Допущены ошибки</h2>
+    <ul>
+        <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+    </ul>
+</div>
+
+<form data-th-action="@{/tasklists/{tasklistId}/edit(tasklistId=${tasklist.id})}" method="post">
+    <table>
+        <thead>
+        <tr>
+            <th>ПАРАМЕТР</th>
+            <th>ЗНАЧЕНИЕ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ID</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${tasklist.id}" name="id" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Имя</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.name : tasklist.name}" name="name"
+                           type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Статус</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.status : tasklist.status}" name="status"
+                           type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Описание</strong></td>
+            <td>
+                <label>
+                    <textarea data-th-text="${payload != null ? payload.description : tasklist.description}"
+                              name="description"></textarea>
+                </label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <button type="submit">Сохранить</button>
+</form>
+
+<br/>
+<form data-th-action="@{/tasklists/{tasklistId}(tasklistId=${tasklist.id})}" method="get">
+    <button type="submit">Отменить</button>
+</form>
+
+</body>
+</html>

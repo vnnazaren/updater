@@ -5,11 +5,11 @@
     <title>[[${database.name}]] &ndash; The Updater</title>
 </head>
 <body>
-<form method="get" data-th-action="@{/}">
+<form data-th-action="@{/}" method="get">
     <button type="submit">&larr; На главную страницу</button>
 </form>
 <br/>
-<form method="get" data-th-action="@{/databases/list}">
+<form data-th-action="@{/databases/list}" method="get">
     <button type="submit">&larr; К списку баз данных</button>
 </form>
 
@@ -54,11 +54,11 @@
     </tbody>
 </table>
 <br/>
-<form method="get" data-th-action="@{/databases/{databaseId}/edit(databaseId=${database.id})}">
+<form data-th-action="@{/databases/{databaseId}/edit(databaseId=${database.id})}" method="get">
     <button type="submit">Изменить</button>
 </form>
 <br/>
-<form method="post" data-th-action="@{/databases/{databaseId}/delete(databaseId=${database.id})}">
+<form data-th-action="@{/databases/{databaseId}/delete(databaseId=${database.id})}" method="post">
     <button type="submit">Удалить</button>
 </form>
 

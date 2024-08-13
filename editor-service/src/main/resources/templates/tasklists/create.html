@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Новая база данных &ndash; The Updater</title>
+    <title>Новый список задач &ndash; The Updater</title>
 </head>
 <body>
 <form data-th-action="@{/}" method="get">
     <button type="submit">&larr; На главную страницу</button>
 </form>
 
-<h1>Новая база данных</h1>
+<h1>Новый список задач</h1>
 
 <div data-th-if="${errors}">
     <h2>Допущены ошибки</h2>
@@ -18,7 +18,7 @@
     </ul>
 </div>
 
-<form data-th-action="@{/databases/create}" method="post">
+<form data-th-action="@{/tasklists/create}" method="post">
 
     <table>
         <thead>
@@ -37,42 +37,18 @@
             </td>
         </tr>
         <tr>
-            <td>Адрес</td>
+            <td>Статус</td>
             <td>
                 <label>
-                    <input data-th-text="${payload?.url}" name="url" type="text">
+                    <input data-th-text="${payload?.status}" name="status" type="text">
                 </label>
             </td>
         </tr>
         <tr>
-            <td>Порт</td>
+            <td>Описание</td>
             <td>
                 <label>
-                    <input data-th-text="${payload?.port}" name="port" type="text">
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>Логин</td>
-            <td>
-                <label>
-                    <input data-th-text="${payload?.login}" name="login" type="text">
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>Пароль</td>
-            <td>
-                <label>
-                    <input data-th-text="${payload?.password}" name="password" type="text">
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>Прод?</td>
-            <td>
-                <label>
-                    <input data-th-text="${payload?.isProd}" name="isProd" type="text">
+                    <textarea data-th-text="${payload?.description}" name="description"></textarea>
                 </label>
             </td>
         </tr>
@@ -82,7 +58,7 @@
     <button type="submit">Создать</button>
 </form>
 <br/>
-<form data-th-action="@{/databases/list}" method="get">
+<form data-th-action="@{/tasklists/list}" method="get">
     <button type="submit">Отменить</button>
 </form>
 
