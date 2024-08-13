@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Редактирование списка задач &laquo;[[${tasklist.name}]]&raquo; &ndash; The Updater</title>
+    <title>Редактирование списка задач &laquo;[[${task_list.name}]]&raquo; &ndash; The Updater</title>
 </head>
 <body>
 <form data-th-action="@{/}" method="get">
     <button type="submit">&larr; На главную страницу</button>
 </form>
 <br/>
-<form data-th-action="@{/tasklists/list}" method="get">
+<form data-th-action="@{/task_lists/list}" method="get">
     <button type="submit">&larr; К спискам задач</button>
 </form>
 
-<h1>Редактирование списка задач &laquo;[[${tasklist.name}]]&raquo;</h1>
+<h1>Редактирование списка задач &laquo;[[${task_list.name}]]&raquo;</h1>
 
 <div data-th-if="${errors}">
     <h2>Допущены ошибки</h2>
@@ -22,7 +22,7 @@
     </ul>
 </div>
 
-<form data-th-action="@{/tasklists/{tasklistId}/edit(tasklistId=${tasklist.id})}" method="post">
+<form data-th-action="@{/task_lists/{tasklistId}/edit(tasklistId=${task_list.id})}" method="post">
     <table>
         <thead>
         <tr>
@@ -35,7 +35,7 @@
             <td><strong>ID</strong></td>
             <td>
                 <label>
-                    <input data-th-value="${tasklist.id}" name="id" type="text">
+                    <input data-th-value="${task_list.id}" name="id" type="text">
                 </label>
             </td>
         </tr>
@@ -43,7 +43,7 @@
             <td><strong>Имя</strong></td>
             <td>
                 <label>
-                    <input data-th-value="${payload != null ? payload.name : tasklist.name}" name="name"
+                    <input data-th-value="${payload != null ? payload.name : task_list.name}" name="name"
                            type="text">
                 </label>
             </td>
@@ -52,7 +52,7 @@
             <td><strong>Статус</strong></td>
             <td>
                 <label>
-                    <input data-th-value="${payload != null ? payload.status : tasklist.status}" name="status"
+                    <input data-th-value="${payload != null ? payload.status : task_list.status}" name="status"
                            type="text">
                 </label>
             </td>
@@ -61,7 +61,7 @@
             <td><strong>Описание</strong></td>
             <td>
                 <label>
-                    <textarea data-th-text="${payload != null ? payload.description : tasklist.description}"
+                    <textarea data-th-text="${payload != null ? payload.description : task_list.description}"
                               name="description"></textarea>
                 </label>
             </td>
@@ -73,7 +73,7 @@
 </form>
 
 <br/>
-<form data-th-action="@{/tasklists/{tasklistId}(tasklistId=${tasklist.id})}" method="get">
+<form data-th-action="@{/task_lists/{taskListId}(taskListId=${task_list.id})}" method="get">
     <button type="submit">Отменить</button>
 </form>
 

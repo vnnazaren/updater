@@ -1,9 +1,9 @@
-package com.vnazarenko.updater.tasklist.controller;
+package com.vnazarenko.updater.database.controller;
 
+import com.vnazarenko.updater.database.DatabaseService;
+import com.vnazarenko.updater.database.model.DatabasePayload;
 import com.vnazarenko.updater.stat.StatClient;
 import com.vnazarenko.updater.stat.model.StatIn;
-import com.vnazarenko.updater.tasklist.TaskListService;
-import com.vnazarenko.updater.tasklist.model.TaskListPayload;
 import com.vnazarenko.updater.util.Marker;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,45 +20,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDateTime;
 
 /**
- * Класс-контроллер Tasklist
+ * Класс-контроллер Database
  */
 @Slf4j
 @Validated
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("tasklists")
-public class TaskListsNewController {
+@RequestMapping("databases")
+public class DatabasesController {
 
-    private final TaskListService taskListService;
+    private final DatabaseService databaseService;
     private final StatClient statClient;
 
     /**
      * Получение страницы со списком всех БД
      */
     @GetMapping("list")
-    public String getTaskListsList(Model model) {
-        model.addAttribute("tasklists", this.taskListService.readTaskLists());
-        return "tasklists/list";
+    public String getDatabasesList(Model model) {
+        model.addAttribute("databases", this.databaseService.readDatabases());
+        return "databases/list";
     }
 
     /**
      * Получение страницы для создания новой БД
      */
     @GetMapping("create")
-    public String getNewTaskListPage() {
-        return "tasklists/create";
+    public String getNewDatabasePage() {
+        return "databases/create";
     }
 
     /**
      * Создание настроек БД
      */
     @PostMapping("create")
-    public String createTaskList(@Validated(Marker.OnCreate.class) TaskListPayload payload,
+    public String createDatabase(@Validated(Marker.OnCreate.class) DatabasePayload payload,
                                  BindingResult bindingResult,
                                  HttpServletRequest httpServletRequest,
                                  Model model) {
 
-        log.info("POST /tasklists/create - %s".formatted(payload));
+        log.info("POST /databases/create - %s".formatted(payload));
         statClient.saveHit(new StatIn("editor-service",
                 httpServletRequest.getRemoteAddr(),
                 httpServletRequest.getRequestURI(),
@@ -70,10 +70,10 @@ public class TaskListsNewController {
             model.addAttribute("errors", bindingResult.getAllErrors().stream()
                     .map(ObjectError::getDefaultMessage)
                     .toList());
-            return "tasklists/create";
+            return "databases/create";
         } else {
-            TaskListPayload tasklist = this.taskListService.createTaskList(payload);
-            return "redirect:/tasklists/%d".formatted(tasklist.id());
+            DatabasePayload database = this.databaseService.createDatabase(payload);
+            return "redirect:/databases/%d".formatted(database.id());
         }
     }
 }

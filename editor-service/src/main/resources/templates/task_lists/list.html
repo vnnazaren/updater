@@ -19,17 +19,17 @@
     </tr>
     </thead>
     <tbody>
-    <tr data-th-each="tasklist : ${tasklists}">
-        <td data-th-text="${tasklist.id}"></td>
+    <tr data-th-each="task_list : ${task_lists}">
+        <td data-th-text="${task_list.id}"></td>
         <td>
-            <a data-th-href="@{/tasklists/{tasklistId}(tasklistId=${tasklist.id})}"
-               data-th-text="${tasklist.name}"></a>
+            <a data-th-href="@{/task_lists/{taskListId}(taskListId=${task_list.id})}"
+               data-th-text="${task_list.name}"></a>
         </td>
     </tr>
     </tbody>
 </table>
 <br/>
-<form data-th-action="@{/tasklists/create}" method="get">
+<form data-th-action="@{/task_lists/create}" method="get">
     <button type="submit">Добавить список задач</button>
 </form>
 </body>

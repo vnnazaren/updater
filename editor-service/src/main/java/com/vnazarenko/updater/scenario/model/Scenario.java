@@ -2,7 +2,7 @@ package com.vnazarenko.updater.scenario.model;
 
 import com.vnazarenko.updater.database_group.model.DatabaseGroup;
 import com.vnazarenko.updater.scheduler.model.Scheduler;
-import com.vnazarenko.updater.tasklist.model.TaskList;
+import com.vnazarenko.updater.task_list.model.TaskList;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;

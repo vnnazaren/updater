@@ -1,4 +1,4 @@
-package com.vnazarenko.updater.tasklist.model;
+package com.vnazarenko.updater.task_list.model;
 
 import com.vnazarenko.updater.database_group.model.DatabaseGroup;
 import com.vnazarenko.updater.util.StatusType;

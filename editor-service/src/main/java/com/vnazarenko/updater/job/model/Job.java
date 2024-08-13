@@ -1,7 +1,7 @@
 package com.vnazarenko.updater.job.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.vnazarenko.updater.joblist.model.JobList;
+import com.vnazarenko.updater.job_list.model.JobList;
 import com.vnazarenko.updater.util.ActionType;
 import com.vnazarenko.updater.util.StatusType;
 import jakarta.persistence.*;

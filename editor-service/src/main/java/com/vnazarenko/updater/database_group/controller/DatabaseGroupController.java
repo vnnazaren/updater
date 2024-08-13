@@ -1,86 +1,79 @@
-//package com.vnazarenko.updater.databasegroup.controller;
-//
-//import com.vnazarenko.updater.databasegroup.DatabaseGroupService;
-//import com.vnazarenko.updater.databasegroup.model.DatabaseGroupPayload;
-//import com.vnazarenko.updater.util.Marker;
-//import lombok.RequiredArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.validation.annotation.Validated;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-///**
-// * Класс-контроллер DatabaseGroup
-// */
-//@Slf4j
-//@Validated
-//@RestController
-//@RequiredArgsConstructor
-//@RequestMapping("/db_groups")
-//public class DatabaseGroupController {
-//    private final DatabaseGroupService databaseGroupService;
-//
-//    /**
-//     * Создание группы БД
-//     *
-//     * @param databaseGroupPayload Тело запроса с DTO группы базы данных
-//     * @return объект DTO с новой созданной группой базой данных
-//     */
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public DatabaseGroupPayload createDatabaseGroup(@Validated(Marker.OnCreate.class) @RequestBody DatabaseGroupPayload databaseGroupPayload) {
-//        log.info("POST /db_groups - %s".formatted(databaseGroupPayload));
-//        return databaseGroupService.createDatabaseGroup(databaseGroupPayload);
-//    }
-//
-//    /**
-//     * Получение всех групп БД
-//     *
-//     * @return список с объектами DTO групп баз данных
-//     */
-//    @GetMapping
-//    public List<DatabaseGroupPayload> readDatabaseGroups() {
-//        log.info("GET /db_groups");
-//        return databaseGroupService.readDatabaseGroups();
-//    }
-//
-//    /**
-//     * Получение группы БД по номеру
-//     *
-//     * @param id идентификатор группы базы данных
-//     * @return объект DTO группы базы данных
-//     */
-//    @GetMapping("/{id}")
-//    public DatabaseGroupPayload readDatabaseGroup(@PathVariable("id") Long id) {
-//        log.info("GET /db_groups/%d".formatted(id));
-//        return databaseGroupService.readDatabaseGroup(id);
-//    }
-//
-//    /**
-//     * Изменение группы БД
-//     *
-//     * @param id                   Идентификатор обновляемой группы базы данных
-//     * @param databaseGroupPayload Тело запроса с DTO группы базы данных
-//     * @return объект DTO группы базы данных с обновлёнными полями
-//     */
-//    @PatchMapping("/{id}")
-//    public DatabaseGroupPayload updateDatabaseGroup(@PathVariable Long id,
-//                                                    @Validated(Marker.OnUpdate.class) @RequestBody DatabaseGroupPayload databaseGroupPayload) {
-//        log.info("PATCH /db_groups/%d - %s".formatted(id, databaseGroupPayload));
-//        return databaseGroupService.updateDatabaseGroup(id, databaseGroupPayload);
-//    }
-//
-//    /**
-//     * Удаление группы БД
-//     *
-//     * @param id идентификатор группы базы данных
-//     */
-//    @DeleteMapping("/{id}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void deleteDatabaseGroup(@PathVariable("id") Long id) {
-//        log.info("DELETE /db_groups/%d".formatted(id));
-//        databaseGroupService.deleteDatabaseGroup(id);
-//    }
-//}
+package com.vnazarenko.updater.database_group.controller;
+
+import com.vnazarenko.updater.database_group.DatabaseGroupService;
+import com.vnazarenko.updater.database_group.model.DatabaseGroupPayload;
+import com.vnazarenko.updater.util.Marker;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * Класс-контроллер DatabaseGroup
+ */
+@Controller
+@RequestMapping(("database_groups/{databaseGroupId:\\d+}"))
+@RequiredArgsConstructor
+public class DatabaseGroupController {
+
+    private final DatabaseGroupService databaseGroupService;
+
+    /**
+     * Описание модели
+     *
+     * @param databaseGroupId идентификатор группы баз данных
+     * @return Получение из локальной БД объекта с группой баз данных
+     */
+    @ModelAttribute("database_group")
+    public DatabaseGroupPayload databaseGroup(@PathVariable("databaseGroupId") Long databaseGroupId) {
+        return this.databaseGroupService.readDatabaseGroup(databaseGroupId);
+    }
+
+    /**
+     * Получение группы БД по номеру
+     */
+    @GetMapping
+    public String getDatabaseGroup() {
+        return "db_groups/read";
+    }
+
+    /**
+     * Получение страницы для изменения настроек БД
+     */
+    @GetMapping("edit")
+    public String getDatabaseGroupEditPage() {
+        return "db_groups/edit";
+    }
+
+    /**
+     * Изменение настроек БД
+     */
+    @PostMapping("edit")
+    public String updateDatabaseGroup(@ModelAttribute(name = "database_group", binding = false) DatabaseGroupPayload databaseGroup,
+                                      @Validated(Marker.OnUpdate.class) DatabaseGroupPayload payload,
+                                      BindingResult bindingResult,
+                                      Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("payload", payload);
+            model.addAttribute("errors", bindingResult.getAllErrors().stream()
+                    .map(ObjectError::getDefaultMessage)
+                    .toList());
+            return "db_groups/edit";
+        } else {
+            this.databaseGroupService.updateDatabaseGroup(payload.id(), payload);
+            return "redirect:/database_groups/%d".formatted(databaseGroup.id());
+        }
+    }
+
+    /**
+     * Удаление настроек БД
+     */
+    @PostMapping("delete")
+    public String deleteDatabaseGroup(@ModelAttribute("database_group") DatabaseGroupPayload databaseGroup) {
+        this.databaseGroupService.deleteDatabaseGroup(databaseGroup.id());
+        return "redirect:/database_groups/list";
+    }
+}

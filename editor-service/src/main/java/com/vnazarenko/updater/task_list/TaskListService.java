@@ -1,6 +1,6 @@
-package com.vnazarenko.updater.tasklist;
+package com.vnazarenko.updater.task_list;
 
-import com.vnazarenko.updater.tasklist.model.TaskListPayload;
+import com.vnazarenko.updater.task_list.model.TaskListPayload;
 
 import java.util.List;
 

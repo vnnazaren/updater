@@ -1,4 +1,4 @@
-package com.vnazarenko.updater.joblist.model;
+package com.vnazarenko.updater.job_list.model;
 
 import org.mapstruct.*;
 

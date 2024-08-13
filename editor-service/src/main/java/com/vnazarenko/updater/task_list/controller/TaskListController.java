@@ -1,7 +1,7 @@
-package com.vnazarenko.updater.tasklist.controller;
+package com.vnazarenko.updater.task_list.controller;
 
-import com.vnazarenko.updater.tasklist.TaskListService;
-import com.vnazarenko.updater.tasklist.model.TaskListPayload;
+import com.vnazarenko.updater.task_list.TaskListService;
+import com.vnazarenko.updater.task_list.model.TaskListPayload;
 import com.vnazarenko.updater.util.Marker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,12 +12,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Класс-контроллер Tasklist
+ * Класс-контроллер TaskList
  */
 @Controller
-@RequestMapping(("tasklists/{tasklistId:\\d+}"))
+@RequestMapping(("task_lists/{taskListId:\\d+}"))
 @RequiredArgsConstructor
-public class TaskListNewController {
+public class TaskListController {
 
     private final TaskListService taskListService;
 
@@ -27,8 +27,8 @@ public class TaskListNewController {
      * @param taskListId идентификатор базы данных
      * @return Получение из локальной БД объекта с настройками базы данных
      */
-    @ModelAttribute("tasklist")
-    public TaskListPayload taskList(@PathVariable("tasklistId") Long taskListId) {
+    @ModelAttribute("task_list")
+    public TaskListPayload taskList(@PathVariable("taskListId") Long taskListId) {
         return this.taskListService.readTaskList(taskListId);
     }
 
@@ -37,7 +37,7 @@ public class TaskListNewController {
      */
     @GetMapping
     public String getTaskList() {
-        return "tasklists/read";
+        return "task_lists/read";
     }
 
     /**
@@ -45,14 +45,14 @@ public class TaskListNewController {
      */
     @GetMapping("edit")
     public String getTaskListEditPage() {
-        return "tasklists/edit";
+        return "task_lists/edit";
     }
 
     /**
      * Изменение настроек БД
      */
     @PostMapping("edit")
-    public String updateTaskList(@ModelAttribute(name = "tasklist", binding = false) TaskListPayload tasklist,
+    public String updateTaskList(@ModelAttribute(name = "task_list", binding = false) TaskListPayload taskList,
                                  @Validated(Marker.OnUpdate.class) TaskListPayload payload,
                                  BindingResult bindingResult,
                                  Model model) {
@@ -61,10 +61,10 @@ public class TaskListNewController {
             model.addAttribute("errors", bindingResult.getAllErrors().stream()
                     .map(ObjectError::getDefaultMessage)
                     .toList());
-            return "tasklists/edit";
+            return "task_lists/edit";
         } else {
             this.taskListService.updateTaskList(payload.id(), payload);
-            return "redirect:/tasklists/%d".formatted(tasklist.id());
+            return "redirect:/task_lists/%d".formatted(taskList.id());
         }
     }
 
@@ -72,8 +72,8 @@ public class TaskListNewController {
      * Удаление настроек БД
      */
     @PostMapping("delete")
-    public String deleteTaskList(@ModelAttribute("tasklist") TaskListPayload tasklist) {
-        this.taskListService.deleteTaskList(tasklist.id());
-        return "redirect:/tasklists/list";
+    public String deleteTaskList(@ModelAttribute("task_list") TaskListPayload taskList) {
+        this.taskListService.deleteTaskList(taskList.id());
+        return "redirect:/task_lists/list";
     }
 }

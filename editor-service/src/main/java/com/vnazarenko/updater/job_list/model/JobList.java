@@ -1,9 +1,9 @@
-package com.vnazarenko.updater.joblist.model;
+package com.vnazarenko.updater.job_list.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vnazarenko.updater.database.model.Database;
 import com.vnazarenko.updater.launch.model.Launch;
-import com.vnazarenko.updater.tasklist.model.TaskList;
+import com.vnazarenko.updater.task_list.model.TaskList;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;

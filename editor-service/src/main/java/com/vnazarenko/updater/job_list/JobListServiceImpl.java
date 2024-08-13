@@ -1,9 +1,9 @@
-package com.vnazarenko.updater.joblist;
+package com.vnazarenko.updater.job_list;
 
 import com.vnazarenko.updater.exception.EntityNotFoundException;
-import com.vnazarenko.updater.joblist.model.JobList;
-import com.vnazarenko.updater.joblist.model.JobListMapper;
-import com.vnazarenko.updater.joblist.model.JobListPayload;
+import com.vnazarenko.updater.job_list.model.JobList;
+import com.vnazarenko.updater.job_list.model.JobListMapper;
+import com.vnazarenko.updater.job_list.model.JobListPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

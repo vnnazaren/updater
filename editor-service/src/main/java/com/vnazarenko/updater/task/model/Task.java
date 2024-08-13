@@ -1,6 +1,6 @@
 package com.vnazarenko.updater.task.model;
 
-import com.vnazarenko.updater.tasklist.model.TaskList;
+import com.vnazarenko.updater.task_list.model.TaskList;
 import com.vnazarenko.updater.util.ActionType;
 import com.vnazarenko.updater.util.StatusType;
 import jakarta.persistence.*;

@@ -1,9 +1,9 @@
-package com.vnazarenko.updater.tasklist;
+package com.vnazarenko.updater.task_list;
 
 import com.vnazarenko.updater.exception.EntityNotFoundException;
-import com.vnazarenko.updater.tasklist.model.TaskList;
-import com.vnazarenko.updater.tasklist.model.TaskListMapper;
-import com.vnazarenko.updater.tasklist.model.TaskListPayload;
+import com.vnazarenko.updater.task_list.model.TaskList;
+import com.vnazarenko.updater.task_list.model.TaskListMapper;
+import com.vnazarenko.updater.task_list.model.TaskListPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

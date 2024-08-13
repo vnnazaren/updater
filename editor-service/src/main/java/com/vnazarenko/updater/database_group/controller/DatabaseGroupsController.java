@@ -1,7 +1,7 @@
-package com.vnazarenko.updater.database.controller;
+package com.vnazarenko.updater.database_group.controller;
 
-import com.vnazarenko.updater.database.DatabaseService;
-import com.vnazarenko.updater.database.model.DatabasePayload;
+import com.vnazarenko.updater.database_group.DatabaseGroupService;
+import com.vnazarenko.updater.database_group.model.DatabaseGroupPayload;
 import com.vnazarenko.updater.stat.StatClient;
 import com.vnazarenko.updater.stat.model.StatIn;
 import com.vnazarenko.updater.util.Marker;
@@ -20,45 +20,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDateTime;
 
 /**
- * Класс-контроллер Database
+ * Класс-контроллер DatabaseGroup
  */
 @Slf4j
 @Validated
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("databases")
-public class DatabasesNewController {
+@RequestMapping("database_groups")
+public class DatabaseGroupsController {
 
-    private final DatabaseService databaseService;
+    private final DatabaseGroupService databaseGroupService;
     private final StatClient statClient;
 
     /**
      * Получение страницы со списком всех БД
      */
     @GetMapping("list")
-    public String getDatabasesList(Model model) {
-        model.addAttribute("databases", this.databaseService.readDatabases());
-        return "databases/list";
+    public String getDatabaseGroupsList(Model model) {
+        model.addAttribute("database_groups", this.databaseGroupService.readDatabaseGroups());
+        return "db_groups/list";
     }
 
     /**
      * Получение страницы для создания новой БД
      */
     @GetMapping("create")
-    public String getNewDatabasePage() {
-        return "databases/create";
+    public String getNewTaskListPage() {
+        return "db_groups/create";
     }
 
     /**
      * Создание настроек БД
      */
     @PostMapping("create")
-    public String createDatabase(@Validated(Marker.OnCreate.class) DatabasePayload payload,
+    public String createTaskList(@Validated(Marker.OnCreate.class) DatabaseGroupPayload payload,
                                  BindingResult bindingResult,
                                  HttpServletRequest httpServletRequest,
                                  Model model) {
 
-        log.info("POST /databases/create - %s".formatted(payload));
+        log.info("POST /database_groups/create - %s".formatted(payload));
         statClient.saveHit(new StatIn("editor-service",
                 httpServletRequest.getRemoteAddr(),
                 httpServletRequest.getRequestURI(),
@@ -70,10 +70,10 @@ public class DatabasesNewController {
             model.addAttribute("errors", bindingResult.getAllErrors().stream()
                     .map(ObjectError::getDefaultMessage)
                     .toList());
-            return "databases/create";
+            return "db_groups/create";
         } else {
-            DatabasePayload database = this.databaseService.createDatabase(payload);
-            return "redirect:/databases/%d".formatted(database.id());
+            DatabaseGroupPayload databaseGroupPayload = this.databaseGroupService.createDatabaseGroup(payload);
+            return "redirect:/database_groups/%d".formatted(databaseGroupPayload.id());
         }
     }
 }

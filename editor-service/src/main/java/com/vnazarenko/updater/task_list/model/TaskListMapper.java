@@ -1,4 +1,4 @@
-package com.vnazarenko.updater.tasklist.model;
+package com.vnazarenko.updater.task_list.model;
 
 import org.mapstruct.*;
 

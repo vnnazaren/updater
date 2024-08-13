@@ -1,6 +1,6 @@
-package com.vnazarenko.updater.joblist;
+package com.vnazarenko.updater.job_list;
 
-import com.vnazarenko.updater.joblist.model.JobListPayload;
+import com.vnazarenko.updater.job_list.model.JobListPayload;
 
 import java.util.List;
 

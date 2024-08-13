@@ -1,6 +1,6 @@
-package com.vnazarenko.updater.joblist;
+package com.vnazarenko.updater.job_list;
 
-import com.vnazarenko.updater.joblist.model.JobListPayload;
+import com.vnazarenko.updater.job_list.model.JobListPayload;
 import com.vnazarenko.updater.util.Marker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/joblists")
+@RequestMapping("/job_lists")
 public class JobListController {
     private final JobListService jobListService;
 
@@ -30,7 +30,7 @@ public class JobListController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public JobListPayload createJobList(@Validated(Marker.OnCreate.class) @RequestBody JobListPayload jobListPayload) {
-        log.info("POST /joblists - %s".formatted(jobListPayload));
+        log.info("POST /job_lists - %s".formatted(jobListPayload));
         return jobListService.createJobList(jobListPayload);
     }
 
@@ -41,7 +41,7 @@ public class JobListController {
      */
     @GetMapping
     public List<JobListPayload> readJobLists() {
-        log.info("GET /joblists");
+        log.info("GET /job_lists");
         return jobListService.readJobLists();
     }
 
@@ -53,7 +53,7 @@ public class JobListController {
      */
     @GetMapping("/{id}")
     public JobListPayload readJobList(@PathVariable("id") Long id) {
-        log.info("GET /joblists/%d".formatted(id));
+        log.info("GET /job_lists/%d".formatted(id));
         return jobListService.readJobList(id);
     }
 
@@ -67,7 +67,7 @@ public class JobListController {
     @PatchMapping("/{id}")
     public JobListPayload updateJobList(@PathVariable Long id,
                                         @Validated(Marker.OnUpdate.class) @RequestBody JobListPayload jobListDto) {
-        log.info("PATCH /joblists/%d - %s".formatted(id, jobListDto));
+        log.info("PATCH /job_lists/%d - %s".formatted(id, jobListDto));
         return jobListService.updateJobList(id, jobListDto);
     }
 
@@ -79,7 +79,7 @@ public class JobListController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteJobList(@PathVariable("id") Long id) {
-        log.info("DELETE /joblists/%d".formatted(id));
+        log.info("DELETE /job_lists/%d".formatted(id));
         jobListService.deleteJobList(id);
     }
 }

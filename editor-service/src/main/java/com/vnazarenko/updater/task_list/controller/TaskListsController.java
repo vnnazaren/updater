@@ -1,9 +1,9 @@
-package com.vnazarenko.updater.database_group.controller;
+package com.vnazarenko.updater.task_list.controller;
 
-import com.vnazarenko.updater.database_group.DatabaseGroupService;
-import com.vnazarenko.updater.database_group.model.DatabaseGroupPayload;
 import com.vnazarenko.updater.stat.StatClient;
 import com.vnazarenko.updater.stat.model.StatIn;
+import com.vnazarenko.updater.task_list.TaskListService;
+import com.vnazarenko.updater.task_list.model.TaskListPayload;
 import com.vnazarenko.updater.util.Marker;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,25 +20,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDateTime;
 
 /**
- * Класс-контроллер DatabaseGroup
+ * Класс-контроллер Task_list
  */
 @Slf4j
 @Validated
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("database_groups")
-public class DatabaseGroupsNewController {
+@RequestMapping("task_lists")
+public class TaskListsController {
 
-    private final DatabaseGroupService databaseGroupService;
+    private final TaskListService taskListService;
     private final StatClient statClient;
 
     /**
      * Получение страницы со списком всех БД
      */
     @GetMapping("list")
-    public String getDatabaseGroupsList(Model model) {
-        model.addAttribute("database_groups", this.databaseGroupService.readDatabaseGroups());
-        return "db_groups/list";
+    public String getTaskListsList(Model model) {
+        model.addAttribute("task_lists", this.taskListService.readTaskLists());
+        return "task_lists/list";
     }
 
     /**
@@ -46,19 +46,19 @@ public class DatabaseGroupsNewController {
      */
     @GetMapping("create")
     public String getNewTaskListPage() {
-        return "db_groups/create";
+        return "task_lists/create";
     }
 
     /**
      * Создание настроек БД
      */
     @PostMapping("create")
-    public String createTaskList(@Validated(Marker.OnCreate.class) DatabaseGroupPayload payload,
+    public String createTaskList(@Validated(Marker.OnCreate.class) TaskListPayload payload,
                                  BindingResult bindingResult,
                                  HttpServletRequest httpServletRequest,
                                  Model model) {
 
-        log.info("POST /database_groups/create - %s".formatted(payload));
+        log.info("POST /task_lists/create - %s".formatted(payload));
         statClient.saveHit(new StatIn("editor-service",
                 httpServletRequest.getRemoteAddr(),
                 httpServletRequest.getRequestURI(),
@@ -70,10 +70,10 @@ public class DatabaseGroupsNewController {
             model.addAttribute("errors", bindingResult.getAllErrors().stream()
                     .map(ObjectError::getDefaultMessage)
                     .toList());
-            return "db_groups/create";
+            return "task_lists/create";
         } else {
-            DatabaseGroupPayload databaseGroupPayload = this.databaseGroupService.createDatabaseGroup(payload);
-            return "redirect:/database_groups/%d".formatted(databaseGroupPayload.id());
+            TaskListPayload taskList = this.taskListService.createTaskList(payload);
+            return "redirect:/task_lists/%d".formatted(taskList.id());
         }
     }
 }
