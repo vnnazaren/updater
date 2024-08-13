@@ -1,6 +1,6 @@
-package com.vnazarenko.updater.databasegroup;
+package com.vnazarenko.updater.database_group;
 
-import com.vnazarenko.updater.databasegroup.model.DatabaseGroup;
+import com.vnazarenko.updater.database_group.model.DatabaseGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DatabaseGroupStorage extends JpaRepository<DatabaseGroup, Long> {

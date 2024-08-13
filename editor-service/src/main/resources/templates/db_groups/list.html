@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Списки задач &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+
+<h1>Списки задач</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Список задач</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-th-each="database_group : ${database_groups}">
+        <td data-th-text="${database_group.id}"></td>
+        <td>
+            <a data-th-href="@{/database_groups/{databaseGroupId}(databaseGroupId=${database_group.id})}"
+               data-th-text="${database_group.name}"></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<form data-th-action="@{/database_groups/create}" method="get">
+    <button type="submit">Добавить список задач</button>
+</form>
+</body>
+</html>

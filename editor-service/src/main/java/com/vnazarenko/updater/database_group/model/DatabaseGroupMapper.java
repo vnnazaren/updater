@@ -1,4 +1,4 @@
-package com.vnazarenko.updater.databasegroup.model;
+package com.vnazarenko.updater.database_group.model;
 
 import org.mapstruct.*;
 

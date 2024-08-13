@@ -1,6 +1,6 @@
-package com.vnazarenko.updater.databasegroup;
+package com.vnazarenko.updater.database_group;
 
-import com.vnazarenko.updater.databasegroup.model.DatabaseGroupPayload;
+import com.vnazarenko.updater.database_group.model.DatabaseGroupPayload;
 
 import java.util.List;
 

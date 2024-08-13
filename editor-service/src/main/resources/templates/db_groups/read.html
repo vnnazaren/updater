@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${database_group.name}]] &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+<br/>
+<form data-th-action="@{/database_groups/list}" method="get">
+    <button type="submit">&larr; К группам баз данных</button>
+</form>
+
+<h1>Просмотр списка задач &laquo;[[${database_group.name}]]&raquo;</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ПАРАМЕТР</th>
+        <th>ЗНАЧЕНИЕ</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><strong>ID</strong></td>
+        <td><span data-th-text="${database_group.id}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Имя</strong></td>
+        <td><span data-th-text="${database_group.name}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Описание</strong></td>
+        <td><span data-th-text="${database_group.description}"></span></td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<form data-th-action="@{/database_groups/{databaseGroupId}/edit(databaseGroupId=${database_group.id})}" method="get">
+    <button type="submit">Изменить</button>
+</form>
+<br/>
+<form data-th-action="@{/database_groups/{databaseGroupId}/delete(databaseGroupId=${database_group.id})}" method="post">
+    <button type="submit">Удалить</button>
+</form>
+
+</body>
+</html>

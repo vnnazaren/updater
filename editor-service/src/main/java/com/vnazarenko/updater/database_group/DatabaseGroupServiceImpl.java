@@ -1,8 +1,8 @@
-package com.vnazarenko.updater.databasegroup;
+package com.vnazarenko.updater.database_group;
 
-import com.vnazarenko.updater.databasegroup.model.DatabaseGroup;
-import com.vnazarenko.updater.databasegroup.model.DatabaseGroupMapper;
-import com.vnazarenko.updater.databasegroup.model.DatabaseGroupPayload;
+import com.vnazarenko.updater.database_group.model.DatabaseGroup;
+import com.vnazarenko.updater.database_group.model.DatabaseGroupMapper;
+import com.vnazarenko.updater.database_group.model.DatabaseGroupPayload;
 import com.vnazarenko.updater.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class DatabaseGroupServiceImpl implements DatabaseGroupService {
     public DatabaseGroupPayload readDatabaseGroup(Long id) {
         return mapper.toDto(dao.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("DatabaseGroup with id \"%d\" not found.".formatted(id))));
+                        new EntityNotFoundException("DatabaseGroup with id %d not found.".formatted(id))));
     }
 
     @Override

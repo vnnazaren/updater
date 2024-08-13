@@ -1,4 +1,4 @@
-package com.vnazarenko.updater.databasegroup.model;
+package com.vnazarenko.updater.database_group.model;
 
 import com.vnazarenko.updater.database.model.Database;
 import jakarta.persistence.*;

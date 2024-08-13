@@ -23,7 +23,7 @@ public record TaskListPayload(@NotNull(groups = {Marker.OnUpdate.class})
                               @NotBlank(groups = {Marker.OnCreate.class, Marker.OnUpdate.class},
                                       message = "Описание сценария должно быть указано.")
                               @Size(groups = {Marker.OnCreate.class, Marker.OnUpdate.class},
-                                      min = 1, max = 4000,
-                                      message = "Длина имени списка задач должно быть от 1 до 4000 символов.")
+                                      min = 10, max = 4000,
+                                      message = "Длина имени списка задач должно быть от 10 до 4000 символов.")
                               String description) {
 }

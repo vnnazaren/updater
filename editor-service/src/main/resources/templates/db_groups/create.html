@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Новая группа баз данных &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+
+<h1>Новая группа баз данных</h1>
+
+<div data-th-if="${errors}">
+    <h2>Допущены ошибки</h2>
+    <ul>
+        <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+    </ul>
+</div>
+
+<form data-th-action="@{/database_groups/create}" method="post">
+
+    <table>
+        <thead>
+        <tr>
+            <th>Параметр</th>
+            <th>Значение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Имя</td>
+            <td>
+                <label>
+                    <input type="text" data-th-value="${payload?.name}" name="name">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Описание</td>
+            <td>
+                <label>
+                    <textarea data-th-text="${payload?.description}" name="description"></textarea>
+                </label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <button type="submit">Создать</button>
+</form>
+<br/>
+<form data-th-action="@{/database_groups/list}" method="get">
+    <button type="submit">Отменить</button>
+</form>
+
+</body>
+</html>

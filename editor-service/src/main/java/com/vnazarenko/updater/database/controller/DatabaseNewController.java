@@ -4,7 +4,6 @@ import com.vnazarenko.updater.database.DatabaseService;
 import com.vnazarenko.updater.database.model.DatabasePayload;
 import com.vnazarenko.updater.util.Marker;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -73,7 +72,6 @@ public class DatabaseNewController {
      * Удаление настроек БД
      */
     @PostMapping("delete")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public String deleteDatabase(@ModelAttribute("database") DatabasePayload database) {
         this.databaseService.deleteDatabase(database.id());
         return "redirect:/databases/list";

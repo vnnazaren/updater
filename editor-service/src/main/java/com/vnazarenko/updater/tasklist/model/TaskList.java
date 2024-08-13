@@ -1,6 +1,6 @@
 package com.vnazarenko.updater.tasklist.model;
 
-import com.vnazarenko.updater.databasegroup.model.DatabaseGroup;
+import com.vnazarenko.updater.database_group.model.DatabaseGroup;
 import com.vnazarenko.updater.util.StatusType;
 import jakarta.persistence.*;
 import lombok.*;

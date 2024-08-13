@@ -4,7 +4,6 @@ import com.vnazarenko.updater.tasklist.TaskListService;
 import com.vnazarenko.updater.tasklist.model.TaskListPayload;
 import com.vnazarenko.updater.util.Marker;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -73,7 +72,6 @@ public class TaskListNewController {
      * Удаление настроек БД
      */
     @PostMapping("delete")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public String deleteTaskList(@ModelAttribute("tasklist") TaskListPayload tasklist) {
         this.taskListService.deleteTaskList(tasklist.id());
         return "redirect:/tasklists/list";
