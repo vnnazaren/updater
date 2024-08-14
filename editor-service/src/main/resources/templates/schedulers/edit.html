@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование планировщика &laquo;[[${scheduler.name}]]&raquo; &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+<br/>
+<form data-th-action="@{/schedulers/list}" method="get">
+    <button type="submit">&larr; К списку планировщиков</button>
+</form>
+
+<h1>Редактирование планировщиков &laquo;[[${scheduler.name}]]&raquo;</h1>
+
+<div data-th-if="${errors}">
+    <h2>Допущены ошибки</h2>
+    <ul>
+        <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+    </ul>
+</div>
+
+<form data-th-action="@{/schedulers/{schedulerId}/edit(schedulerId=${scheduler.id})}" method="post">
+
+    <table>
+        <thead>
+        <tr>
+            <th>ПАРАМЕТР</th>
+            <th>ЗНАЧЕНИЕ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ID</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${scheduler.id}" name="id" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Имя</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.name : scheduler.name}" name="name" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Дата</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.scheduleToStart : scheduler.scheduleToStart}"
+                           name="scheduleToStart" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Активен?</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.isActive : scheduler.isActive}" name="isActive"
+                           type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Описание</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.description : scheduler.description}"
+                           name="description" type="text">
+                </label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <button type="submit">Сохранить</button>
+</form>
+<br/>
+<form data-th-action="@{/schedulers/{schedulerId}(schedulerId=${scheduler.id})}" method="get">
+    <button type="submit">Отменить</button>
+</form>
+
+</body>
+</html>

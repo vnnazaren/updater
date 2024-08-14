@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Редактирование списка задач &laquo;[[${database_group.name}]]&raquo; &ndash; The Updater</title>
+    <title>Редактирование групп баз данных &laquo;[[${database_group.name}]]&raquo; &ndash; The Updater</title>
 </head>
 <body>
 <form data-th-action="@{/}" method="get">
@@ -10,10 +10,10 @@
 </form>
 <br/>
 <form data-th-action="@{/database_groups/list}" method="get">
-    <button type="submit">&larr; К спискам задач</button>
+    <button type="submit">&larr; К группам баз данных</button>
 </form>
 
-<h1>Редактирование списка задач &laquo;[[${database_group.name}]]&raquo;</h1>
+<h1>Редактирование группы баз данных &laquo;[[${database_group.name}]]&raquo;</h1>
 
 <div data-th-if="${errors}">
     <h2>Допущены ошибки</h2>

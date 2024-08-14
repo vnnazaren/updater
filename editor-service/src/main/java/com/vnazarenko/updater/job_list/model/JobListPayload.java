@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
 
+import static com.vnazarenko.updater.util.Const.DATE_TIME_FORMAT;
+
 /**
  * Класс DTO класса "JobList"
  */
@@ -26,9 +28,9 @@ public record JobListPayload(@Positive
                              @Positive
                              Long taskListId,
                              @NotNull(message = "Дата начала работы инстанса сценария должна быть указана.")
-                             @JsonFormat
+                             @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
                              LocalDateTime startDateTime,
-                             @JsonFormat
+                             @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
                              LocalDateTime endDateTime,
                              String initContext) {
 }

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование сценария &laquo;[[${scenario.name}]]&raquo; &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+<br/>
+<form data-th-action="@{/scenarios/list}" method="get">
+    <button type="submit">&larr; К списку сценариев</button>
+</form>
+
+<h1>Редактирование сценария &laquo;[[${scenario.name}]]&raquo;</h1>
+
+<div data-th-if="${errors}">
+    <h2>Допущены ошибки</h2>
+    <ul>
+        <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+    </ul>
+</div>
+
+<form data-th-action="@{/scenarios/{scenarioId}/edit(scenarioId=${scenario.id})}" method="post">
+
+    <table>
+        <thead>
+        <tr>
+            <th>ПАРАМЕТР</th>
+            <th>ЗНАЧЕНИЕ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ID</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${scenario.id}" name="id" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Имя</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.name : scenario.name}" name="name" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Планировщик</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.schedulerId : scenario.schedulerId}"
+                           name="schedulerId" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Группа БД</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.databaseGroupId : scenario.databaseGroupId}"
+                           name="databaseGroupId" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Список задач</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.taskListId : scenario.taskListId}"
+                           name="taskListId" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Входящие параметры</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.initContext : scenario.initContext}"
+                           name="initContext" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Какая-то метка</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.label : scenario.label}" name="label"
+                           type="text">
+                </label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <button type="submit">Сохранить</button>
+</form>
+<br/>
+<form data-th-action="@{/scenarios/{scenarioId}(scenarioId=${scenario.id})}" method="get">
+    <button type="submit">Отменить</button>
+</form>
+
+</body>
+</html>

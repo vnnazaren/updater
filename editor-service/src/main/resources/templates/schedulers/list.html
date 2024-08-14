@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список планировщиков &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+
+<h1>Планировщики</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Планировщик</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-th-each="scheduler : ${schedulers}">
+        <td data-th-text="${scheduler.id}"></td>
+        <td>
+            <a data-th-href="@{/schedulers/{schedulerId}(schedulerId=${scheduler.id})}"
+               data-th-text="${scheduler.name}"></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<form data-th-action="@{/schedulers/create}" method="get">
+    <button type="submit">Добавить планировщик</button>
+</form>
+</body>
+</html>

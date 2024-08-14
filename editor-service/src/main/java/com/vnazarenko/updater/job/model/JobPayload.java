@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import static com.vnazarenko.updater.util.Const.DATE_TIME_FORMAT;
+
 /**
  * Класс DTO класса "Job"
  */
@@ -22,9 +24,9 @@ public record JobPayload(@Positive
                          StatusType status,
                          String description,
                          String dbProcId,
-                         @JsonFormat
+                         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
                          LocalDateTime startDateTime,
-                         @JsonFormat
+                         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
                          LocalDateTime endDateTime,
                          String incomingContext,
                          String context,

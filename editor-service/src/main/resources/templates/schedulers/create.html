@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Новая группа баз данных &ndash; The Updater</title>
+    <title>Новый планировщик &ndash; The Updater</title>
 </head>
 <body>
 <form data-th-action="@{/}" method="get">
     <button type="submit">&larr; На главную страницу</button>
 </form>
 
-<h1>Новая группа баз данных</h1>
+<h1>Новый планировщик</h1>
 
 <div data-th-if="${errors}">
     <h2>Допущены ошибки</h2>
@@ -18,7 +18,7 @@
     </ul>
 </div>
 
-<form data-th-action="@{/database_groups/create}" method="post">
+<form data-th-action="@{/schedulers/create}" method="post">
 
     <table>
         <thead>
@@ -29,7 +29,7 @@
         </thead>
         <tbody>
         <tr>
-            <td>Имя</td>
+            <td><strong>Имя</strong></td>
             <td>
                 <label>
                     <input data-th-value="${payload?.name}" name="name" type="text">
@@ -37,10 +37,26 @@
             </td>
         </tr>
         <tr>
-            <td>Описание</td>
+            <td><strong>Дата</strong></td>
             <td>
                 <label>
-                    <textarea data-th-text="${payload?.description}" name="description"></textarea>
+                    <input data-th-text="${payload?.scheduleToStart}" name="scheduleToStart" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Активен?</strong></td>
+            <td>
+                <label>
+                    <input data-th-text="${payload?.isActive}" name="isActive" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Описание</strong></td>
+            <td>
+                <label>
+                    <input data-th-text="${payload?.description}" name="description" type="text">
                 </label>
             </td>
         </tr>
@@ -50,7 +66,7 @@
     <button type="submit">Создать</button>
 </form>
 <br/>
-<form data-th-action="@{/database_groups/list}" method="get">
+<form data-th-action="@{/schedulers/list}" method="get">
     <button type="submit">Отменить</button>
 </form>
 

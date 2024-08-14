@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Новый сценарий &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+
+<h1>Новый сценарий</h1>
+
+<div data-th-if="${errors}">
+    <h2>Допущены ошибки</h2>
+    <ul>
+        <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+    </ul>
+</div>
+
+<form data-th-action="@{/scenarios/create}" method="post">
+
+    <table>
+        <thead>
+        <tr>
+            <th>ПАРАМЕТР</th>
+            <th>ЗНАЧЕНИЕ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Имя</td>
+            <td>
+                <label>
+                    <input data-th-value="${payload?.name}" name="name" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Планировщик</td>
+            <td>
+                <label>
+                    <input data-th-text="${payload?.schedulerId}" name="schedulerId" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Группа баз данных</td>
+            <td>
+                <label>
+                    <input data-th-text="${payload?.databaseGroupId}" name="databaseGroupId" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Список задач</td>
+            <td>
+                <label>
+                    <input data-th-text="${payload?.taskListId}" name="taskListId" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Входящие параметры</td>
+            <td>
+                <label>
+                    <input data-th-text="${payload?.initContext}" name="initContext" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Какая-то метка</td>
+            <td>
+                <label>
+                    <input data-th-text="${payload?.label}" name="label" type="text">
+                </label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <button type="submit">Создать</button>
+</form>
+<br/>
+<form data-th-action="@{/scenarios/list}" method="get">
+    <button type="submit">Отменить</button>
+</form>
+
+</body>
+</html>

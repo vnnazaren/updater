@@ -29,6 +29,12 @@ public class Scenario {
     private Long id;
 
     /**
+     * Пользовательское имя сценария
+     */
+    @Column(name = "name")
+    private String name;
+
+    /**
      * Идентификатор планировщика
      */
     @ManyToOne(fetch = FetchType.LAZY)

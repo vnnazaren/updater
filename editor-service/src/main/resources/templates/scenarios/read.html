@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${scenario.name}]] &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+<br/>
+<form data-th-action="@{/scenarios/list}" method="get">
+    <button type="submit">&larr; К списку сценариев</button>
+</form>
+
+<h1>Просмотр сценариев &laquo;[[${scenario.name}]]&raquo;</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ПАРАМЕТР</th>
+        <th>ЗНАЧЕНИЕ</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><strong>ID</strong></td>
+        <td><span data-th-text="${scenario.id}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Имя</strong></td>
+        <td><span data-th-text="${scenario.name}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Планировщик</strong></td>
+        <td><span data-th-text="${scenario.schedulerId}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Группа баз данных</strong></td>
+        <td><span data-th-text="${scenario.databaseGroupId}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Список задач</strong></td>
+        <td><span data-th-text="${scenario.taskListId}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Входящие параметры</strong></td>
+        <td><span data-th-text="${scenario.initContext}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Какая-то метка</strong></td>
+        <td><span data-th-text="${scenario.label}"></span></td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<form data-th-action="@{/scenarios/{scenarioId}/edit(scenarioId=${scenario.id})}" method="get">
+    <button type="submit">Изменить</button>
+</form>
+<br/>
+<form data-th-action="@{/scenarios/{scenarioId}/delete(scenarioId=${scenario.id})}" method="post">
+    <button type="submit">Удалить</button>
+</form>
+
+</body>
+</html>

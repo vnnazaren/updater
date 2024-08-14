@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
 
+import static com.vnazarenko.updater.util.Const.DATE_TIME_FORMAT;
+
 /**
  * Класс DTO класса "Launch"
  */
@@ -16,8 +18,8 @@ public record LaunchPayload(@Positive
                             Long schedulerId,
                             @NotNull(message = "Статус запуска должен быть указан.")
                             StatusType status,
-                            @JsonFormat
+                            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
                             LocalDateTime startDateTime,
-                            @JsonFormat
+                            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
                             LocalDateTime endDateTime) {
 }

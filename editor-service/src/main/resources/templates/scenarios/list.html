@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список сценариев &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+
+<h1>Сценарии</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Сценарии</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-th-each="scenario : ${scenarios}">
+        <td data-th-text="${scenario.id}"></td>
+        <td>
+            <a data-th-href="@{/scenarios/{scenarioId}(scenarioId=${scenario.id})}"
+               data-th-text="${scenario.name}"></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<form data-th-action="@{/scenarios/create}" method="get">
+    <button type="submit">Добавить сценарий</button>
+</form>
+</body>
+</html>

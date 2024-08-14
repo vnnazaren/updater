@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${scheduler.name}]] &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+<br/>
+<form data-th-action="@{/schedulers/list}" method="get">
+    <button type="submit">&larr; К списку планировщиков</button>
+</form>
+
+<h1>Просмотр БД &laquo;[[${scheduler.name}]]&raquo;</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ПАРАМЕТР</th>
+        <th>ЗНАЧЕНИЕ</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><strong>ID</strong></td>
+        <td><span data-th-text="${scheduler.id}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Имя</strong></td>
+        <td><span data-th-text="${scheduler.name}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Дата</strong></td>
+        <td><span data-th-text="${scheduler.scheduleToStart}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Активен?</strong></td>
+        <td><span data-th-text="${scheduler.isActive}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Описание</strong></td>
+        <td><span data-th-text="${scheduler.description}"></span></td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<form data-th-action="@{/schedulers/{schedulerId}/edit(schedulerId=${scheduler.id})}" method="get">
+    <button type="submit">Изменить</button>
+</form>
+<br/>
+<form data-th-action="@{/schedulers/{schedulerId}/delete(schedulerId=${scheduler.id})}" method="post">
+    <button type="submit">Удалить</button>
+</form>
+
+</body>
+</html>
