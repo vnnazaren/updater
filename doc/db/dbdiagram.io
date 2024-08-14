@@ -69,6 +69,7 @@ Table "job_lists" {
 
 Table "scenarios" {
   "id" bigint [pk, not null, increment]
+  "name" varchar(255)
   "scheduler_id" bigint [not null]
   "database_group_id" bigint [not null]
   "task_list_id" bigint [not null]
