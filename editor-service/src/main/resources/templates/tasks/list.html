@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список задач &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+
+<h1>Задачи</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Имя задачи</th>
+        <th>Список задач</th>
+        <th>Какие-то флаги</th>
+        <th>Статус</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-th-each="task : ${tasks}">
+        <td data-th-text="${task.id}"></td>
+        <td>
+            <a data-th-href="@{/tasks/{taskId}(taskId=${task.id})}" data-th-text="${task.name}"></a>
+        </td>
+        <td data-th-text="${task.taskListId}"></td>
+        <td data-th-text="${task.flags}"></td>
+        <td data-th-text="${task.status}"></td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<form data-th-action="@{/tasks/create}" method="get">
+    <button type="submit">Добавить задачу</button>
+</form>
+</body>
+</html>

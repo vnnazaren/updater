@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование задачи &laquo;[[${task.name}]]&raquo; &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+<br/>
+<form data-th-action="@{/tasks/list}" method="get">
+    <button type="submit">&larr; К списку задач</button>
+</form>
+
+<h1>Редактирование базы данных &laquo;[[${task.name}]]&raquo;</h1>
+
+<div data-th-if="${errors}">
+    <h2>Допущены ошибки</h2>
+    <ul>
+        <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+    </ul>
+</div>
+
+<form data-th-action="@{/tasks/{taskId}/edit(taskId=${task.id})}" method="post">
+
+    <table>
+        <thead>
+        <tr>
+            <th>ПАРАМЕТР</th>
+            <th>ЗНАЧЕНИЕ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ID</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${task.id}" name="id" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Имя</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.name : task.name}" name="name" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Список задач</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.taskListId : task.taskListId}" name="taskListId" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Тип скрипта</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.actionType : task.actionType}" name="actionType" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Текст скрипта</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.actionScript : task.actionScript}" name="actionScript" type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Ожидаемый результат</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.expectedResult : task.expectedResult}" name="expectedResult"
+                           type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Какие-то флаги</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.flags : task.flags}" name="flags"
+                           type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Статус</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.status : task.status}" name="status"
+                           type="text">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Описание</strong></td>
+            <td>
+                <label>
+                    <input data-th-value="${payload != null ? payload.description : task.description}" name="description"
+                           type="text">
+                </label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <button type="submit">Сохранить</button>
+</form>
+<br/>
+<form data-th-action="@{/tasks/{taskId}(taskId=${task.id})}" method="get">
+    <button type="submit">Отменить</button>
+</form>
+
+</body>
+</html>

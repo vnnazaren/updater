@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${task.name}]] &ndash; The Updater</title>
+</head>
+<body>
+<form data-th-action="@{/}" method="get">
+    <button type="submit">&larr; На главную страницу</button>
+</form>
+<br/>
+<form data-th-action="@{/tasks/list}" method="get">
+    <button type="submit">&larr; К списку задач</button>
+</form>
+
+<h1>Просмотр задачи &laquo;[[${task.name}]]&raquo;</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ПАРАМЕТР</th>
+        <th>ЗНАЧЕНИЕ</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><strong>ID</strong></td>
+        <td><span data-th-text="${task.id}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Имя</strong></td>
+        <td><span data-th-text="${task.name}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Список задач</strong></td>
+        <td><span data-th-text="${task.taskListId}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Тип скрипта</strong></td>
+        <td><span data-th-text="${task.actionType}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Текст скрипта</strong></td>
+        <td><span data-th-text="${task.actionScript}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Ожидаемый результат</strong></td>
+        <td><span data-th-text="${task.expectedResult}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Какие-то флаги</strong></td>
+        <td><span data-th-text="${task.flags}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Статус</strong></td>
+        <td><span data-th-text="${task.status}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Описание</strong></td>
+        <td><span data-th-text="${task.description}"></span></td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<form data-th-action="@{/tasks/{taskId}/edit(taskId=${task.id})}" method="get">
+    <button type="submit">Изменить</button>
+</form>
+<br/>
+<form data-th-action="@{/tasks/{taskId}/delete(taskId=${task.id})}" method="post">
+    <button type="submit">Удалить</button>
+</form>
+
+</body>
+</html>
